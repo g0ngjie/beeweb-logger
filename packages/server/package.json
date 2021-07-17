@@ -2,7 +2,7 @@
   "name": "@beeweb/logger-server",
   "version": "1.0.1",
   "private": true,
-  "description": "> TODO: description",
+  "description": "前端埋点收集服务",
   "author": "Gj <gongjie0422@163.com>",
   "homepage": "https://github.com/g0ngjie/beeweb-logger#readme",
   "license": "MIT",
