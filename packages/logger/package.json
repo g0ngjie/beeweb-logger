@@ -1,0 +1,61 @@
+{
+  "name": "@beeweb/logger",
+  "version": "1.0.6",
+  "description": "埋点工具",
+  "main": "lib/index.umd.js",
+  "module": "lib/index.esm.min.js",
+  "typings": "types/index.d.ts",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint 'src/**/*.{js,ts}'",
+    "watch": "rollup -w -c --environment FORMAT:minesm",
+    "build:types": "tsc -p . --emitDeclarationOnly",
+    "build:esm": "rollup -c --environment FORMAT:esm",
+    "build:minesm": "rollup -c --environment FORMAT:minesm",
+    "build:umd": "rollup -c --environment FORMAT:umd",
+    "build:min": "rollup -c --environment FORMAT:min",
+    "build": "rimraf lib/* types/* && run-p build:esm build:minesm build:umd build:min build:types"
+  },
+  "keywords": [
+    "web-logger",
+    "logger",
+    "beeweb"
+  ],
+  "files": [
+    "lib",
+    "types"
+  ],
+  "author": "Gj <gongjie0422@163.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-typescript": "^7.14.5",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "eslint": "^7.30.0",
+    "husky": "^7.0.1",
+    "jest": "^27.0.6",
+    "lint-staged": "^11.0.0",
+    "lodash.merge": "^4.6.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.52.8",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-uglify": "^6.0.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*./src/**/*.{js,ts,json,css,scss,md}": [
+      "prettier --write",
+      "yarn lint"
+    ]
+  },
+  "dependencies": {}
+}

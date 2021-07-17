@@ -1,0 +1,42 @@
+{
+  "name": "@beeweb/logger-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "> TODO: description",
+  "author": "Gj <gongjie0422@163.com>",
+  "homepage": "https://github.com/g0ngjie/beeweb-logger#readme",
+  "license": "MIT",
+  "main": "lib/server.js",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/g0ngjie/beeweb-logger.git"
+  },
+  "scripts": {
+    "start": "node bin/www",
+    "serve": "./node_modules/.bin/nodemon bin/www",
+    "prd": "pm2 start bin/www"
+  },
+  "bugs": {
+    "url": "https://github.com/g0ngjie/beeweb-logger/issues"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-convert": "^1.2.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.0",
+    "koa-onerror": "^4.1.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
+    "node-schedule": "^1.3.2",
+    "nodemailer": "^6.4.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}

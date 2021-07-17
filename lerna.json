@@ -1,0 +1,38 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "useWorkspaces": true,
+  "npmClient": "yarn",
+  "npmClientArgs": [
+    "--production",
+    "--no-optional"
+  ],
+  "version": "independent",
+  "command": {
+    "publish": {
+      "ignoreChanges": [
+        "**/__fixtures__/**",
+        "**/__tests__/**",
+        "*.md"
+      ],
+      "message": "chore(release): publish %s"
+    },
+    "version": {
+      "ignoreChanges": [
+        "**/__fixtures__/**",
+        "**/__tests__/**",
+        "*.md",
+        "packages/example",
+        "packages/vuepage"
+      ],
+      "message": "version patch"
+    },
+    "bootstrap": {
+      "ignore": "component-*",
+      "npmClientArgs": [
+        "--no-package-lock"
+      ]
+    }
+  }
+}

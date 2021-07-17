@@ -1,0 +1,8 @@
+LICENSE.md
+.prettierignore
+yarn.lock
+lib/*
+types/*
+tsconfig.json
+rollup.config.js
+package.json

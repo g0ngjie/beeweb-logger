@@ -1,0 +1,24 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "scripts": {
+    "build": "lerna run build",
+    "publish": "lerna publish from-git --yes",
+    "version": "lerna version patch --yes",
+    "changed": "lerna changed",
+    "show": "lerna list",
+    "dev": "lerna run --scope example dev",
+    "test": "lerna run --scope example test",
+    "vuepage": "lerna exec --scope vuepage yarn serve",
+    "serve": "lerna exec --scope @beeweb/logger-server yarn serve",
+    "watch": "lerna exec --scope @beeweb/logger yarn watch",
+    "exec:dev": "lerna exec --scope example yarn dev",
+    "init:install": "lerna bootstrap"
+  }
+}
