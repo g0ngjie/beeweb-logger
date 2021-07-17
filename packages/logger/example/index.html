@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-    <script src="http://api.map.baidu.com/api?v=3.0&ak=RD3fQS8GA1UeR4Ig10ejdEkTg1OfwuV3"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,20 +9,15 @@
 </head>
 
 <body>
-
+    <button onclick="onClick()">click</button>
 </body>
 
 <script type="module">
-    import { mount, listener } from "../lib/index.esm.min.js";
-    mount({
-        mapURI:
-            "http://api.map.baidu.com/location/ip?ak=RD3fQS8GA1UeR4Ig10ejdEkTg1OfwuV3",
-        // serverURL: "http://localhost:12345",
-        // encryptionFunc: 'useDefault'
-    });
-    listener(({ detail }) => {
-        console.log("[debug]html:", detail)
-    })
+    import { mount, listener, handleClick } from "../lib/index.esm.min.js";
+    mount();
+    listener(({ detail }) => console.log(detail))
+    window.onClick = () => handleClick('test click')
 </script>
+
 
 </html>

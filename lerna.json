@@ -23,7 +23,6 @@
         "**/__fixtures__/**",
         "**/__tests__/**",
         "*.md",
-        "packages/example",
         "packages/vuepage"
       ],
       "message": "version patch"
