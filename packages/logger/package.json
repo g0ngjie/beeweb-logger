@@ -1,6 +1,6 @@
 {
   "name": "@beeweb/logger",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "埋点工具",
   "main": "lib/index.umd.js",
   "module": "lib/index.esm.min.js",
@@ -56,6 +56,5 @@
       "prettier --write",
       "yarn lint"
     ]
-  },
-  "dependencies": {}
+  }
 }
