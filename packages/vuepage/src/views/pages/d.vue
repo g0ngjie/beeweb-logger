@@ -1,5 +1,8 @@
 <template>
-  <div>d</div>
+  <div>
+    d
+    <routes-component />
+  </div>
 </template>
 
 <script>
