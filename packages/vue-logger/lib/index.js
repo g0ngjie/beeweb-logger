@@ -1,4 +1,7 @@
 import { mount, listener, handleClickTrigger } from "@beeweb/logger";
+// interface ILogger {
+//     readonly $logger: Function
+// }
 /**
  * @author Gj
  */

@@ -9,19 +9,19 @@
 </template>
 
 <script>
-import { handleClickTrigger } from "@beeweb/logger";
+import { handleClick } from "@beeweb/logger";
 export default {
   methods: {
     handleLink() {
       this.$router.replace("/b");
     },
     handleTestClick() {
-      handleClickTrigger("点击测试");
+      handleClick("点击测试");
     },
     testLogger() {
       console.log("[debug]this.$logger:", this.$logger);
-      this.$logger({a: 123});
+      this.$logger({ a: 123 });
     },
-  },
+  }
 };
 </script>

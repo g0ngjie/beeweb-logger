@@ -8,7 +8,7 @@ import RoutesComponent from "./components/routes.vue";
 Vue.component("routes-component", RoutesComponent);
 
 // import './loggerMount'
-import './vuelogger'
+// import './vuelogger'
 
 
 Vue.use(ElementUI);
