@@ -18,8 +18,8 @@ export interface IAddress {
     // Longtitude 经度
     readonly lng?: string
     readonly location?: {
-        readonly address: string
-        readonly content: any
+        address: string
+        content: any
     },
     readonly err?: string
 }

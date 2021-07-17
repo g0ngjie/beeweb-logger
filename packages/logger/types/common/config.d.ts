@@ -7,4 +7,4 @@ export declare function configServerURL(url: string): void;
  * 启用加密
  * 需要注入一条加密函数
  */
-export declare function configEnabledEncryption(encryptionFunc: IEncryptionFunc): void;
+export declare function configEncryption(encryptionFunc: IEncryptionFunc): void;

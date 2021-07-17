@@ -15,6 +15,6 @@ export function configServerURL(url: string): void {
  * 启用加密
  * 需要注入一条加密函数
  */
-export function configEnabledEncryption(encryptionFunc: IEncryptionFunc): void {
+export function configEncryption(encryptionFunc: IEncryptionFunc): void {
     (window as any)[Config.ENCRYPTION.toString()] = encryptionFunc
 }

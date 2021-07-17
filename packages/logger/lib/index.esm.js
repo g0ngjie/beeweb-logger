@@ -191,11 +191,24 @@ function trigger (data) {
 }
 
 /**
+ * 自定义触发器
+ * @param {any} content 
+ */
+
+function handleCustom(content) {
+  trigger({
+    eventType: 'custom',
+    content: content,
+    url: window.location.href,
+    createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+  });
+}
+/**
  * 点击触发器
  * @param {any} content 
  */
 
-function handleClickTrigger(content) {
+function handleClick(content) {
   trigger({
     eventType: 'click',
     content: content,
@@ -212,7 +225,7 @@ function handleClickTrigger(content) {
  * @param {IPageStatus} pageStatus 
  */
 
-function handlePageTrigger(stateType, stayTime, url, pageStatus) {
+function handlePage(stateType, stayTime, url, pageStatus) {
   getAddressInfo().then(function (address) {
     trigger({
       eventType: 'page',
@@ -231,7 +244,7 @@ function handlePageTrigger(stateType, stayTime, url, pageStatus) {
 /**
  * 监听Web页面事件
  */
-function mountWebPageEvent() {
+function mountPageEvent() {
   var beforeTime = Date.now(); // 前置页面
 
   var frontPage = '';
@@ -273,13 +286,13 @@ function mountWebPageEvent() {
     if (frontPage) {
       // 则触发离开
       // 并记录时长
-      handlePageTrigger(type, stayTime, frontPage, 'leave');
+      handlePage(type, stayTime, frontPage, 'leave');
     } // 更新前置页面
 
 
     frontPage = currentPage; // 进入新页面
 
-    handlePageTrigger(type, 0, currentPage, 'enter');
+    handlePage(type, 0, currentPage, 'enter');
   }
   /***************************************页面刷新*********************************************/
 
@@ -328,7 +341,7 @@ function configServerURL(url) {
  * 需要注入一条加密函数
  */
 
-function configEnabledEncryption(encryptionFunc) {
+function configEncryption(encryptionFunc) {
   window[Config.ENCRYPTION.toString()] = encryptionFunc;
 }
 
@@ -364,9 +377,9 @@ function mount(options) {
   } // 加密
 
 
-  if (encryptionFunc) configEnabledEncryption(encryptionFunc); // 挂载页面事件
+  if (encryptionFunc) configEncryption(encryptionFunc); // 挂载页面事件
 
-  mountWebPageEvent();
+  mountPageEvent();
 }
 
-export { handleClickTrigger, listener, mount, mountWebPageEvent };
+export { handleClick, handleCustom, listener, mount, mountPageEvent };

@@ -1,10 +1,10 @@
-import { handlePageTrigger } from "./handler";
+import { handlePage } from "./handler";
 import { IEvent, IStateType } from "./schema";
 
 /**
  * 监听Web页面事件
  */
-export function mountWebPageEvent(): void {
+export function mountPageEvent(): void {
     let beforeTime = Date.now()
     // 前置页面
     let frontPage: string = ''
@@ -44,12 +44,12 @@ export function mountWebPageEvent(): void {
         if (frontPage) {
             // 则触发离开
             // 并记录时长
-            handlePageTrigger(type, stayTime, frontPage, 'leave')
+            handlePage(type, stayTime, frontPage, 'leave')
         }
         // 更新前置页面
         frontPage = currentPage
         // 进入新页面
-        handlePageTrigger(type, 0, currentPage, 'enter')
+        handlePage(type, 0, currentPage, 'enter')
     }
 
     /***************************************页面刷新*********************************************/

@@ -9,8 +9,8 @@ export interface IAddress {
     readonly lat?: string;
     readonly lng?: string;
     readonly location?: {
-        readonly address: string;
-        readonly content: any;
+        address: string;
+        content: any;
     };
     readonly err?: string;
 }

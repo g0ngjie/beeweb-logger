@@ -1,6 +1,6 @@
-import { mountWebPageEvent } from "./common/event";
+import { mountPageEvent } from "./common/event";
 import listener from "./common/listener";
-import { handleClickTrigger } from "./common/handler";
+import { handleClick, handleCustom } from "./common/handler";
 import { IEncryptionFunc } from "./common/schema";
 /**
  * cjs 页面挂载
@@ -10,4 +10,4 @@ declare function mount(options: {
     serverURL?: string;
     encryptionFunc?: IEncryptionFunc;
 }): void;
-export { mount, listener, handleClickTrigger, mountWebPageEvent };
+export { mount, listener, handleClick, handleCustom, mountPageEvent };

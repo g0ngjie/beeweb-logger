@@ -1,7 +1,7 @@
-import { mountWebPageEvent } from "./common/event";
+import { mountPageEvent } from "./common/event";
 import listener from "./common/listener";
-import { handleClickTrigger } from "./common/handler";
-import { configEnabledEncryption, configMapURI, configServerURL } from "./common/config";
+import { handleClick, handleCustom } from "./common/handler";
+import { configEncryption, configMapURI, configServerURL } from "./common/config";
 import sender from "./common/sender";
 import { IEncryptionFunc } from "./common/schema";
 
@@ -21,14 +21,15 @@ function mount(options: {
     listener((event: any) => sender(event.detail))
   }
   // 加密
-  if (encryptionFunc) configEnabledEncryption(encryptionFunc)
+  if (encryptionFunc) configEncryption(encryptionFunc)
   // 挂载页面事件
-  mountWebPageEvent()
+  mountPageEvent()
 }
 
 export {
   mount,
   listener,
-  handleClickTrigger,
-  mountWebPageEvent
+  handleClick,
+  handleCustom,
+  mountPageEvent
 }

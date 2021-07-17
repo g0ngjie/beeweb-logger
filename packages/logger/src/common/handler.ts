@@ -6,7 +6,7 @@ import { formatDate, getNavigatorInfo, getAddressInfo } from "./utils";
  * 自定义触发器
  * @param {any} content 
  */
-export function handleCustomTrigger(content?: any): void {
+export function handleCustom(content?: any): void {
     trigger<ICustomData>({
         eventType: 'custom',
         content,
@@ -19,7 +19,7 @@ export function handleCustomTrigger(content?: any): void {
  * 点击触发器
  * @param {any} content 
  */
-export function handleClickTrigger(content?: any): void {
+export function handleClick(content?: any): void {
     trigger<IClickData>({
         eventType: 'click',
         content,
@@ -36,7 +36,7 @@ export function handleClickTrigger(content?: any): void {
  * @param {string} url 
  * @param {IPageStatus} pageStatus 
  */
-export function handlePageTrigger(
+export function handlePage(
     stateType: IStateType,
     stayTime: number | string,
     url: string,

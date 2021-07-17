@@ -1,4 +1,4 @@
 /**
  * 监听Web页面事件
  */
-export declare function mountWebPageEvent(): void;
+export declare function mountPageEvent(): void;
