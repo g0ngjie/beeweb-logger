@@ -2,7 +2,7 @@
 
 一个方便统计页面 PV/UV、触发和交互的轻量级前端埋点工具
 
-## 安装
+### 安装
 
 ```shell
 $ npm install --save @beeweb/logger
@@ -10,7 +10,7 @@ $ npm install --save @beeweb/logger
 $ yarn add @beeweb/logger
 ```
 
-## 使用
+### 使用
 
 ```js
 import { mount, listener } from '@beeweb/logger';
@@ -44,7 +44,7 @@ listener(function(response) {...})
 */
 ```
 
-##### mount 函数
+#### mount 函数
 
 > 可接收一个 options 对象
 
@@ -54,7 +54,7 @@ listener(function(response) {...})
 | serverURL      | String                   | false    | 后端接口请求地址                                                                          |
 | encryptionFunc | Function \| 'useDefault' | false    | Function: 接收一个加密函数,对监听到的参数做处理<br />'useDefault': 默认使用**Base64**加密 |
 
-##### listener 函数
+#### listener 函数
 
 > 事件触发回调函数
 
@@ -74,17 +74,17 @@ handleCustom(...args)
 listener(function(response) {...})
 ```
 
-##### mountPageEvent 函数
+#### mountPageEvent 函数
 
 > 挂载页面级别监听
 >
 > 监听类别: 'load' | 'popstate' | 'pushState' | 'replaceState'
 
-##### handleClick 函数
+#### handleClick 函数
 
 > 接收一个任意类型的参数
 
-##### handleCustom 函数
+#### handleCustom 函数
 
 > 接收一个任意类型的参数
 >
