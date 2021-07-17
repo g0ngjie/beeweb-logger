@@ -360,25 +360,27 @@ function sender (data) {
 }
 
 /**
- * cjs 页面挂载
+ * 页面挂载
  */
 function mount(options) {
-  var _ref = options,
-      mapURI = _ref.mapURI,
-      serverURL = _ref.serverURL,
-      encryptionFunc = _ref.encryptionFunc; // 默认配置
+  if (options) {
+    var mapURI = options.mapURI,
+        serverURL = options.serverURL,
+        encryptionFunc = options.encryptionFunc; // 默认配置
 
-  if (mapURI) configMapURI(mapURI);
+    if (mapURI) configMapURI(mapURI);
 
-  if (serverURL) {
-    configServerURL(serverURL);
-    listener(function (event) {
-      return sender(event.detail);
-    });
-  } // 加密
+    if (serverURL) {
+      configServerURL(serverURL);
+      listener(function (event) {
+        return sender(event.detail);
+      });
+    } // 加密
 
 
-  if (encryptionFunc) configEncryption(encryptionFunc); // 挂载页面事件
+    if (encryptionFunc) configEncryption(encryptionFunc);
+  } // 挂载页面事件
+
 
   mountPageEvent();
 }
