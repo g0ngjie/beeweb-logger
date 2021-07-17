@@ -11,6 +11,12 @@
     "lib",
     "types"
   ],
+  "keywords": [
+    "vue-logger",
+    "web-logger",
+    "logger",
+    "beeweb"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/g0ngjie/beeweb-logger.git"
