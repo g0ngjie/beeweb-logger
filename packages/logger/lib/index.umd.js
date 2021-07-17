@@ -16,7 +16,78 @@
       Config["LOCATION_URL"] = "___beeweb_logger_location_url___";
       Config["SERVER_URL"] = "___beeweb_logger_server_url__";
       Config["ENCRYPTION"] = "___beeweb_logger_encryption__";
+      Config["PROJECT"] = "___beeweb_project__";
     })(Config || (Config = {}));
+
+    function listener (cb) {
+      window.addEventListener(EventType.EVENT.toString(), function (target) {
+        if (cb) cb(target);
+      }, false);
+    }
+
+    function sender (data) {
+      var fetchUrl = window[Config.SERVER_URL.toString()];
+      if (fetchUrl) fetch(fetchUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          data: data
+        }),
+        mode: 'cors'
+      });
+    }
+
+    /**配置百度地图URI */
+
+    function configMapURI(uri) {
+      window[Config.LOCATION_URL.toString()] = uri;
+    }
+    /**配置服务端接收 */
+
+
+    function configServerURL(url) {
+      window[Config.SERVER_URL.toString()] = url;
+    }
+    /**
+     * 启用加密
+     * 需要注入一条加密函数
+     */
+
+
+    function configEncryption(encryptionFunc) {
+      window[Config.ENCRYPTION.toString()] = encryptionFunc;
+    }
+    /**配置项目名 */
+
+
+    function configProject(projectName) {
+      window[Config.PROJECT.toString()] = projectName;
+    }
+    /**加载配置 */
+
+
+    function loadConfig(options) {
+      var project = options.project,
+          mapURI = options.mapURI,
+          serverURL = options.serverURL,
+          encryptionFunc = options.encryptionFunc; // 项目
+
+      if (project) configProject(project); // 默认配置
+
+      if (mapURI) configMapURI(mapURI);
+
+      if (serverURL) {
+        configServerURL(serverURL);
+        listener(function (event) {
+          return sender(event.detail);
+        });
+      } // 加密
+
+
+      if (encryptionFunc) configEncryption(encryptionFunc);
+    }
 
     /**
      * 格式化时间
@@ -123,6 +194,12 @@
         vendor: vendor
       };
     }
+    /**获取项目 */
+
+    function getProject() {
+      var project = window[Config.PROJECT.toString()];
+      return project;
+    }
     /**
      * @param {string} src
      * @param {Function} cb
@@ -206,6 +283,7 @@
         eventType: 'custom',
         content: content,
         url: window.location.href,
+        project: getProject() || '',
         navigatorInfo: getNavigatorInfo(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       });
@@ -220,6 +298,7 @@
         eventType: 'click',
         content: content,
         url: window.location.href,
+        project: getProject(),
         navigatorInfo: getNavigatorInfo(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       });
@@ -240,6 +319,7 @@
           stateType: stateType,
           // event,
           url: url,
+          project: getProject(),
           pageStatus: pageStatus,
           stayTime: stayTime,
           createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
@@ -329,66 +409,12 @@
       });
     }
 
-    function listener (cb) {
-      window.addEventListener(EventType.EVENT.toString(), function (target) {
-        if (cb) cb(target);
-      }, false);
-    }
-
-    /**配置百度地图URI */
-    function configMapURI(uri) {
-      window[Config.LOCATION_URL.toString()] = uri;
-    }
-    /**配置服务端接收 */
-
-    function configServerURL(url) {
-      window[Config.SERVER_URL.toString()] = url;
-    }
-    /**
-     * 启用加密
-     * 需要注入一条加密函数
-     */
-
-    function configEncryption(encryptionFunc) {
-      window[Config.ENCRYPTION.toString()] = encryptionFunc;
-    }
-
-    function sender (data) {
-      var fetchUrl = window[Config.SERVER_URL.toString()];
-      if (fetchUrl) fetch(fetchUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          data: data
-        }),
-        mode: 'cors'
-      });
-    }
-
     /**
      * 页面挂载
      */
+
     function mount(options) {
-      if (options) {
-        var mapURI = options.mapURI,
-            serverURL = options.serverURL,
-            encryptionFunc = options.encryptionFunc; // 默认配置
-
-        if (mapURI) configMapURI(mapURI);
-
-        if (serverURL) {
-          configServerURL(serverURL);
-          listener(function (event) {
-            return sender(event.detail);
-          });
-        } // 加密
-
-
-        if (encryptionFunc) configEncryption(encryptionFunc);
-      } // 挂载页面事件
-
+      if (options) loadConfig(options); // 挂载页面事件
 
       mountPageEvent();
     }

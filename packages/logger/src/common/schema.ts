@@ -12,6 +12,7 @@ interface IBaseData {
     readonly eventType: IType
     // 浏览器信息
     readonly navigatorInfo: any
+    readonly project?: string
 }
 
 export interface IAddress {
@@ -57,3 +58,10 @@ export interface ICustomData {
 
 /**加密函数 */
 export type IEncryptionFunc = Function | 'useDefault'
+
+export interface IConfigOptions {
+    project?: string,
+    mapURI?: string,
+    serverURL?: string,
+    encryptionFunc?: IEncryptionFunc
+}

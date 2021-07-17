@@ -9,5 +9,7 @@ export enum Config {
     /**服务 */
     SERVER_URL = '___beeweb_logger_server_url__',
     /**加密 */
-    ENCRYPTION = '___beeweb_logger_encryption__'
+    ENCRYPTION = '___beeweb_logger_encryption__',
+    /**项目 */
+    PROJECT = '___beeweb_project__'
 }

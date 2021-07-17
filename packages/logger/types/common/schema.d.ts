@@ -5,6 +5,7 @@ export declare type IPageStatus = 'enter' | 'leave';
 interface IBaseData {
     readonly eventType: IType;
     readonly navigatorInfo: any;
+    readonly project?: string;
 }
 export interface IAddress {
     readonly lat?: string;
@@ -35,4 +36,10 @@ export interface ICustomData {
 }
 /**加密函数 */
 export declare type IEncryptionFunc = Function | 'useDefault';
+export interface IConfigOptions {
+    project?: string;
+    mapURI?: string;
+    serverURL?: string;
+    encryptionFunc?: IEncryptionFunc;
+}
 export {};

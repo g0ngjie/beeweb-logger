@@ -129,6 +129,12 @@ export function getNavigatorInfo(): any {
     }
 }
 
+/**获取项目 */
+export function getProject(): string | undefined {
+    const project: string = (window as any)[Config.PROJECT.toString()]
+    return project
+}
+
 /**
  * @param {string} src
  * @param {Function} cb

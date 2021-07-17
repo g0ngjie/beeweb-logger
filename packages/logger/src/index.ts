@@ -1,29 +1,14 @@
-import { mountPageEvent } from "./common/event";
 import listener from "./common/listener";
+import { loadConfig } from "./common/configure";
+import { mountPageEvent } from "./common/event";
+import { IConfigOptions } from "./common/schema";
 import { handleClick, handleCustom } from "./common/handler";
-import { configEncryption, configMapURI, configServerURL } from "./common/config";
-import sender from "./common/sender";
-import { IEncryptionFunc } from "./common/schema";
 
 /**
  * 页面挂载
  */
-function mount(options?: {
-  mapURI?: string,
-  serverURL?: string,
-  encryptionFunc?: IEncryptionFunc
-}): void {
-  if (options) {
-    const { mapURI, serverURL, encryptionFunc } = options
-    // 默认配置
-    if (mapURI) configMapURI(mapURI)
-    if (serverURL) {
-      configServerURL(serverURL)
-      listener((event: any) => sender(event.detail))
-    }
-    // 加密
-    if (encryptionFunc) configEncryption(encryptionFunc)
-  }
+function mount(options?: IConfigOptions): void {
+  if (options) loadConfig(options)
   // 挂载页面事件
   mountPageEvent()
 }
