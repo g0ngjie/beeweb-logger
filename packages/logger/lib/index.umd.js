@@ -271,8 +271,8 @@
         };
       };
 
-      history.pushState = overWrite('pushState');
-      history.replaceState = overWrite('replaceState');
+      window.history.pushState = overWrite('pushState');
+      window.history.replaceState = overWrite('replaceState');
       /**获取停留时长 */
 
       function getStayTime() {
@@ -369,9 +369,10 @@
      * cjs 页面挂载
      */
     function mount(options) {
-      var mapURI = options.mapURI,
-          serverURL = options.serverURL,
-          encryptionFunc = options.encryptionFunc; // 默认配置
+      var _ref = options,
+          mapURI = _ref.mapURI,
+          serverURL = _ref.serverURL,
+          encryptionFunc = _ref.encryptionFunc; // 默认配置
 
       if (mapURI) configMapURI(mapURI);
 

@@ -23,8 +23,8 @@ export function mountPageEvent(): void {
             return target;
         };
     };
-    history.pushState = overWrite('pushState');
-    history.replaceState = overWrite('replaceState');
+    window.history.pushState = overWrite('pushState');
+    window.history.replaceState = overWrite('replaceState');
 
     /**获取停留时长 */
     function getStayTime() {

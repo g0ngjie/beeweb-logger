@@ -5,7 +5,7 @@ import { IEncryptionFunc } from "./common/schema";
 /**
  * cjs 页面挂载
  */
-declare function mount(options: {
+declare function mount(options?: {
     mapURI?: string;
     serverURL?: string;
     encryptionFunc?: IEncryptionFunc;

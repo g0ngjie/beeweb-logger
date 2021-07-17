@@ -8,12 +8,12 @@ import { IEncryptionFunc } from "./common/schema";
 /**
  * cjs 页面挂载
  */
-function mount(options: {
+function mount(options?: {
   mapURI?: string,
   serverURL?: string,
   encryptionFunc?: IEncryptionFunc
 }): void {
-  const { mapURI, serverURL, encryptionFunc } = options
+  const { mapURI, serverURL, encryptionFunc } = (options as any)
   // 默认配置
   if (mapURI) configMapURI(mapURI)
   if (serverURL) {
