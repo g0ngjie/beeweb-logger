@@ -1,6 +1,6 @@
 {
   "name": "@beeweb/logger",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "💬 前端埋点工具",
   "main": "lib/index.umd.js",
   "module": "lib/index.esm.min.js",
