@@ -4,6 +4,7 @@ export declare type IEvent = WindowEventMap['load'] | WindowEventMap['popstate']
 export declare type IPageStatus = 'enter' | 'leave';
 interface IBaseData {
     readonly eventType: IType;
+    readonly navigatorInfo: any;
 }
 export interface IAddress {
     readonly lat?: string;
@@ -22,7 +23,6 @@ export interface IPageData extends IBaseData {
     readonly createTime: string;
     readonly stayTime: number | string;
     readonly pageStatus: IPageStatus;
-    readonly navigatorInfo: any;
     readonly address: IAddress;
 }
 export interface IClickData extends IBaseData {

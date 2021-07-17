@@ -10,6 +10,8 @@ export type IPageStatus = 'enter' | 'leave'
 interface IBaseData {
     // 事件类型
     readonly eventType: IType
+    // 浏览器信息
+    readonly navigatorInfo: any
 }
 
 export interface IAddress {
@@ -38,8 +40,6 @@ export interface IPageData extends IBaseData {
     readonly stayTime: number | string
     // 页面进入/离开
     readonly pageStatus: IPageStatus
-    // 浏览器信息
-    readonly navigatorInfo: any
     readonly address: IAddress
 }
 

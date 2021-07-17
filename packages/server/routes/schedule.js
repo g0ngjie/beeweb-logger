@@ -53,16 +53,16 @@ async function launchMail() {
  */
 function fmtData(reqBody) {
   const decodeStr = Base64.decode(reqBody);
-  const { navigatorInfo, address: userAddr, ...others } = JSON.parse(decodeStr);
+  const { navigatorInfo, address: userAddr = {}, ...others } = JSON.parse(decodeStr);
   const {
     userAgent, //由客户机发送服务器的 user-agent 头部的值
     appName, //浏览器的名称
     appVersion, //浏览器的平台和版本信息
     platform, //运行浏览器的操作系统平台
   } = navigatorInfo;
-  const { lat, lng, location: data } = userAddr;
-  const { address, content } = data;
-  const { address: _address, address_detail } = content;
+  const { lat, lng, location: data = {} } = userAddr;
+  const { address, content = {} } = data;
+  const { address: _address, address_detail = {} } = content;
   const { province, city, district, street } = address_detail;
   return {
     userAgent,

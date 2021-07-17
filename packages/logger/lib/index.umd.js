@@ -7,15 +7,15 @@
     var EventType;
 
     (function (EventType) {
-      EventType["EVENT"] = "___alrale_logger_event___";
+      EventType["EVENT"] = "___beeweb_logger_event___";
     })(EventType || (EventType = {}));
 
     var Config;
 
     (function (Config) {
-      Config["LOCATION_URL"] = "___alrale_logger_location_url___";
-      Config["SERVER_URL"] = "___alrale_logger_server_url__";
-      Config["ENCRYPTION"] = "___alrale_logger_encryption__";
+      Config["LOCATION_URL"] = "___beeweb_logger_location_url___";
+      Config["SERVER_URL"] = "___beeweb_logger_server_url__";
+      Config["ENCRYPTION"] = "___beeweb_logger_encryption__";
     })(Config || (Config = {}));
 
     /**
@@ -206,6 +206,7 @@
         eventType: 'custom',
         content: content,
         url: window.location.href,
+        navigatorInfo: getNavigatorInfo(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       });
     }
@@ -219,6 +220,7 @@
         eventType: 'click',
         content: content,
         url: window.location.href,
+        navigatorInfo: getNavigatorInfo(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       });
     }

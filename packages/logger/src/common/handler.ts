@@ -11,6 +11,7 @@ export function handleCustom(content?: any): void {
         eventType: 'custom',
         content,
         url: window.location.href,
+        navigatorInfo: getNavigatorInfo(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
     })
 }
@@ -24,6 +25,7 @@ export function handleClick(content?: any): void {
         eventType: 'click',
         content,
         url: window.location.href,
+        navigatorInfo: getNavigatorInfo(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
     })
 }
