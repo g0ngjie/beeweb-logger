@@ -1,4 +1,5 @@
-import { EventType } from "./enum";
+import { Config, EventType } from "./enum";
+import { IEncryptionFunc } from "./schema";
 import { Base64 } from "./utils";
 
 /**
@@ -7,9 +8,18 @@ import { Base64 } from "./utils";
  * @param {IPageData} data 数据
  */
 export default function <T>(data: T): void {
-    const encodedString = Base64.encode(JSON.stringify(data));
+    const encryptionFunc: IEncryptionFunc | undefined = (window as any)[Config.ENCRYPTION.toString()]
+    let detail: any;
+    // 判断是否启用加密
+    if (encryptionFunc) {
+        if (encryptionFunc === 'useDefault') detail = Base64.encode(JSON.stringify(data));
+        // 此功能与listener一样
+        else detail = encryptionFunc(data)
+    }
+    else detail = data
+
     const event: CustomEvent = new CustomEvent(EventType.EVENT, {
-        detail: encodedString,
+        detail,
         bubbles: false,
         cancelable: true,
     });

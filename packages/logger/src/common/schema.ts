@@ -9,48 +9,51 @@ export type IPageStatus = 'enter' | 'leave'
 
 interface IBaseData {
     // 事件类型
-    eventType: IType
+    readonly eventType: IType
 }
 
 export interface IAddress {
     // Latitude 纬度
-    lat?: string
+    readonly lat?: string
     // Longtitude 经度
-    lng?: string
-    location?: {
-        address: string
-        content: any
+    readonly lng?: string
+    readonly location?: {
+        readonly address: string
+        readonly content: any
     },
-    err?: string
+    readonly err?: string
 }
 
 export interface IPageData extends IBaseData {
     // eventType 为 page时，type类型
-    stateType: IStateType
+    readonly stateType: IStateType
     // 原生Event回调
-    event?: IEvent
+    readonly event?: IEvent
     // 内容
-    content?: any
+    readonly content?: any
     // 页面位置
-    url: string
-    createTime: string
+    readonly url: string
+    readonly createTime: string
     // 页面停留时长
-    stayTime: number | string
+    readonly stayTime: number | string
     // 页面进入/离开
-    pageStatus: IPageStatus
+    readonly pageStatus: IPageStatus
     // 浏览器信息
-    navigatorInfo: any
-    address: IAddress
+    readonly navigatorInfo: any
+    readonly address: IAddress
 }
 
 export interface IClickData extends IBaseData {
     // 内容
-    content?: any
+    readonly content?: any
     // 页面位置
-    url: string
-    createTime: string
+    readonly url: string
+    readonly createTime: string
 }
 
 export interface ICustomData {
-    [propName: string]: string | number
+    readonly [propName: string]: string | number
 }
+
+/**加密函数 */
+export type IEncryptionFunc = Function | 'useDefault'

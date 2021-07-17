@@ -9,6 +9,7 @@ var Config;
 (function (Config) {
   Config["LOCATION_URL"] = "___alrale_logger_location_url___";
   Config["SERVER_URL"] = "___alrale_logger_server_url__";
+  Config["ENCRYPTION"] = "___alrale_logger_encryption__";
 })(Config || (Config = {}));
 
 /**
@@ -173,9 +174,16 @@ function getAddressInfo() {
  */
 
 function trigger (data) {
-  var encodedString = Base64.encode(JSON.stringify(data));
+  var encryptionFunc = window[Config.ENCRYPTION.toString()];
+  var detail; // 判断是否启用加密
+
+  if (encryptionFunc) {
+    if (encryptionFunc === 'useDefault') detail = Base64.encode(JSON.stringify(data)); // 此功能与listener一样
+    else detail = encryptionFunc(data);
+  } else detail = data;
+
   var event = new CustomEvent(EventType.EVENT, {
-    detail: encodedString,
+    detail: detail,
     bubbles: false,
     cancelable: true
   });
@@ -307,7 +315,6 @@ function listener (cb) {
 }
 
 /**配置百度地图URI */
-
 function configMapURI(uri) {
   window[Config.LOCATION_URL.toString()] = uri;
 }
@@ -315,6 +322,14 @@ function configMapURI(uri) {
 
 function configServerURL(url) {
   window[Config.SERVER_URL.toString()] = url;
+}
+/**
+ * 启用加密
+ * 需要注入一条加密函数
+ */
+
+function configEnabledEncryption(encryptionFunc) {
+  window[Config.ENCRYPTION.toString()] = encryptionFunc;
 }
 
 function sender (data) {
@@ -334,18 +349,22 @@ function sender (data) {
 /**
  * cjs 页面挂载
  */
-
 function mount(options) {
-  // 默认配置
-  if (options.mapURI) configMapURI(options.mapURI);
+  var mapURI = options.mapURI,
+      serverURL = options.serverURL,
+      encryptionFunc = options.encryptionFunc; // 默认配置
 
-  if (options.serverURL) {
-    configServerURL(options.serverURL);
+  if (mapURI) configMapURI(mapURI);
+
+  if (serverURL) {
+    configServerURL(serverURL);
     listener(function (event) {
       return sender(event.detail);
     });
-  } // 挂载页面事件
+  } // 加密
 
+
+  if (encryptionFunc) configEnabledEncryption(encryptionFunc); // 挂载页面事件
 
   mountWebPageEvent();
 }

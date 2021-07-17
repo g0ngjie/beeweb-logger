@@ -3,34 +3,36 @@ export declare type IStateType = 'load' | 'popstate' | 'pushState' | 'replaceSta
 export declare type IEvent = WindowEventMap['load'] | WindowEventMap['popstate'] | Event;
 export declare type IPageStatus = 'enter' | 'leave';
 interface IBaseData {
-    eventType: IType;
+    readonly eventType: IType;
 }
 export interface IAddress {
-    lat?: string;
-    lng?: string;
-    location?: {
-        address: string;
-        content: any;
+    readonly lat?: string;
+    readonly lng?: string;
+    readonly location?: {
+        readonly address: string;
+        readonly content: any;
     };
-    err?: string;
+    readonly err?: string;
 }
 export interface IPageData extends IBaseData {
-    stateType: IStateType;
-    event?: IEvent;
-    content?: any;
-    url: string;
-    createTime: string;
-    stayTime: number | string;
-    pageStatus: IPageStatus;
-    navigatorInfo: any;
-    address: IAddress;
+    readonly stateType: IStateType;
+    readonly event?: IEvent;
+    readonly content?: any;
+    readonly url: string;
+    readonly createTime: string;
+    readonly stayTime: number | string;
+    readonly pageStatus: IPageStatus;
+    readonly navigatorInfo: any;
+    readonly address: IAddress;
 }
 export interface IClickData extends IBaseData {
-    content?: any;
-    url: string;
-    createTime: string;
+    readonly content?: any;
+    readonly url: string;
+    readonly createTime: string;
 }
 export interface ICustomData {
-    [propName: string]: string | number;
+    readonly [propName: string]: string | number;
 }
+/**加密函数 */
+export declare type IEncryptionFunc = Function | 'useDefault';
 export {};
