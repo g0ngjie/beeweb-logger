@@ -7,7 +7,7 @@ const logger = require("koa-logger");
 const cors = require("koa2-cors");
 
 const index = require("./routes/index");
-const { disptachSchedule } = require("./routes/schedule");
+const { disptachSchedule } = require("./utils/schedule");
 disptachSchedule();
 
 // error handler

@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const { logInfo } = require("./logs");
-const { sendMailTo } = require("./config");
+const { sendMailTo } = require("../config");
 
 exports.setMail = async html => {
   let mailTransport = nodemailer.createTransport({
@@ -18,7 +18,7 @@ exports.setMail = async html => {
     subject: "Gj Home",
     html
   };
-  mailTransport.sendMail(options, function(err, msg) {
+  mailTransport.sendMail(options, function (err, msg) {
     if (err) {
       console.log(err);
     } else {

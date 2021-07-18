@@ -1,5 +1,5 @@
 const router = require("koa-router")();
-const { addCache } = require("./schedule");
+const { addCache } = require("../utils/schedule");
 
 router.get("/", async (ctx, next) => {
   ctx.type = "html";

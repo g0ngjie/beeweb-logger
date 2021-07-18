@@ -2,7 +2,7 @@ const schedule = require("node-schedule");
 const { Base64 } = require("./secret");
 const { setMail, getHtml } = require("./mail");
 const { logInfo } = require("./logs");
-const { timing, minute, hour } = require("./config");
+const { timing, minute, hour } = require("../config");
 
 let cache = {};
 
