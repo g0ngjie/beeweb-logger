@@ -15,7 +15,7 @@ exports.setMail = async html => {
     from: "514979324@qq.com",
     to: sendMailTo,
     bcc: "密送",
-    subject: "Gj Home",
+    subject: "Gj Loggers",
     html
   };
   mailTransport.sendMail(options, function (err, msg) {
