@@ -2,6 +2,8 @@ import { mount, listener } from "@beeweb/logger";
 import { Base64 } from "./secret";
 
 mount({
+    traceId: 'xxxbcd',
+    statement: { project: 'vuepage' },
     mapURI:
         "http://api.map.baidu.com/location/ip?ak=RD3fQS8GA1UeR4Ig10ejdEkTg1OfwuV3",
     serverURL: "http://localhost:12345",
