@@ -22,21 +22,27 @@ function configEncryption(encryptionFunc: IEncryptionFunc): void {
 }
 
 /**配置项目名 */
-function configProject(projectName: string): void {
-    (window as any)[Config.PROJECT.toString()] = projectName
+function configStatement(statement: { [state: string]: any }): void {
+    (window as any)[Config.STATEMENT.toString()] = statement
+}
+
+/**配置链路ID */
+function configTraceId(traceId: string): void {
+    (window as any)[Config.TRACE_ID.toString()] = traceId
 }
 
 /**加载配置 */
 export function loadConfig(options: IConfigOptions): void {
-    const { project, mapURI, serverURL, encryptionFunc } = options
-    // 项目
-    if (project) configProject(project)
+    const { traceId, mapURI, serverURL, encryptionFunc, statement } = options
     // 默认配置
+    if (traceId) configTraceId(traceId)
     if (mapURI) configMapURI(mapURI)
     if (serverURL) {
         configServerURL(serverURL)
         listener((event: any) => sender(event.detail))
     }
+    // 声明
+    if (statement) configStatement(statement)
     // 加密
     if (encryptionFunc) configEncryption(encryptionFunc)
 }

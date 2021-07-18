@@ -22,6 +22,10 @@ export declare const Base64: {
 /**获取终端信息 */
 export declare function getNavigatorInfo(): any;
 /**获取项目 */
-export declare function getProject(): string | undefined;
+export declare function getStatement(): {
+    [state: string]: any;
+};
+/**获取链路ID */
+export declare function getTraceId(): string | undefined;
 export declare function getAddressInfo(): Promise<IAddress>;
 export {};

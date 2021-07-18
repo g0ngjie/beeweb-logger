@@ -3,43 +3,49 @@ export declare type IStateType = 'load' | 'popstate' | 'pushState' | 'replaceSta
 export declare type IEvent = WindowEventMap['load'] | WindowEventMap['popstate'] | Event;
 export declare type IPageStatus = 'enter' | 'leave';
 interface IBaseData {
-    readonly eventType: IType;
-    readonly navigatorInfo: any;
-    readonly project?: string;
+    eventType: IType;
+    navigatorInfo: any;
+    traceId?: string;
+    statement?: {
+        [state: string]: any;
+    };
 }
 export interface IAddress {
-    readonly lat?: string;
-    readonly lng?: string;
-    readonly location?: {
+    lat?: string;
+    lng?: string;
+    location?: {
         address: string;
         content: any;
     };
-    readonly err?: string;
+    err?: string;
 }
 export interface IPageData extends IBaseData {
-    readonly stateType: IStateType;
-    readonly event?: IEvent;
-    readonly content?: any;
-    readonly url: string;
-    readonly createTime: string;
-    readonly stayTime: number | string;
-    readonly pageStatus: IPageStatus;
-    readonly address: IAddress;
+    stateType: IStateType;
+    event?: IEvent;
+    content?: any;
+    url: string;
+    createTime: string;
+    stayTime: number | string;
+    pageStatus: IPageStatus;
+    address: IAddress;
 }
 export interface IClickData extends IBaseData {
-    readonly content?: any;
-    readonly url: string;
-    readonly createTime: string;
+    content?: any;
+    url: string;
+    createTime: string;
 }
-export interface ICustomData {
-    readonly [propName: string]: string | number;
+export interface ICustomData extends IBaseData {
+    [key: string]: any;
 }
 /**加密函数 */
 export declare type IEncryptionFunc = Function | 'useDefault';
 export interface IConfigOptions {
-    project?: string;
+    traceId?: string;
     mapURI?: string;
     serverURL?: string;
     encryptionFunc?: IEncryptionFunc;
+    statement?: {
+        [state: string]: any;
+    };
 }
 export {};

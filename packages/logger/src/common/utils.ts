@@ -130,9 +130,15 @@ export function getNavigatorInfo(): any {
 }
 
 /**获取项目 */
-export function getProject(): string | undefined {
-    const project: string = (window as any)[Config.PROJECT.toString()]
-    return project
+export function getStatement(): { [state: string]: any } {
+    const statement: { [state: string]: any } = (window as any)[Config.STATEMENT.toString()]
+    return statement || {}
+}
+
+/**获取链路ID */
+export function getTraceId(): string | undefined {
+    const traceId: string | undefined = (window as any)[Config.TRACE_ID.toString()]
+    return traceId
 }
 
 /**

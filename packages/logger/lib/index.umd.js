@@ -13,10 +13,11 @@
     var Config;
 
     (function (Config) {
+      Config["TRACE_ID"] = "___beeweb_trace_id___";
       Config["LOCATION_URL"] = "___beeweb_logger_location_url___";
       Config["SERVER_URL"] = "___beeweb_logger_server_url__";
       Config["ENCRYPTION"] = "___beeweb_logger_encryption__";
-      Config["PROJECT"] = "___beeweb_project__";
+      Config["STATEMENT"] = "___beeweb_statement__";
     })(Config || (Config = {}));
 
     function listener (cb) {
@@ -62,20 +63,26 @@
     /**配置项目名 */
 
 
-    function configProject(projectName) {
-      window[Config.PROJECT.toString()] = projectName;
+    function configStatement(statement) {
+      window[Config.STATEMENT.toString()] = statement;
+    }
+    /**配置链路ID */
+
+
+    function configTraceId(traceId) {
+      window[Config.TRACE_ID.toString()] = traceId;
     }
     /**加载配置 */
 
 
     function loadConfig(options) {
-      var project = options.project,
+      var traceId = options.traceId,
           mapURI = options.mapURI,
           serverURL = options.serverURL,
-          encryptionFunc = options.encryptionFunc; // 项目
+          encryptionFunc = options.encryptionFunc,
+          statement = options.statement; // 默认配置
 
-      if (project) configProject(project); // 默认配置
-
+      if (traceId) configTraceId(traceId);
       if (mapURI) configMapURI(mapURI);
 
       if (serverURL) {
@@ -83,8 +90,10 @@
         listener(function (event) {
           return sender(event.detail);
         });
-      } // 加密
+      } // 声明
 
+
+      if (statement) configStatement(statement); // 加密
 
       if (encryptionFunc) configEncryption(encryptionFunc);
     }
@@ -196,9 +205,15 @@
     }
     /**获取项目 */
 
-    function getProject() {
-      var project = window[Config.PROJECT.toString()];
-      return project;
+    function getStatement() {
+      var statement = window[Config.STATEMENT.toString()];
+      return statement || {};
+    }
+    /**获取链路ID */
+
+    function getTraceId() {
+      var traceId = window[Config.TRACE_ID.toString()];
+      return traceId;
     }
     /**
      * @param {string} src
@@ -281,9 +296,10 @@
     function handleCustom(content) {
       trigger({
         eventType: 'custom',
+        traceId: getTraceId(),
+        statement: getStatement(),
         content: content,
         url: window.location.href,
-        project: getProject() || '',
         navigatorInfo: getNavigatorInfo(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       });
@@ -296,9 +312,10 @@
     function handleClick(content) {
       trigger({
         eventType: 'click',
+        traceId: getTraceId(),
+        statement: getStatement(),
         content: content,
         url: window.location.href,
-        project: getProject(),
         navigatorInfo: getNavigatorInfo(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       });
@@ -316,10 +333,11 @@
       getAddressInfo().then(function (address) {
         trigger({
           eventType: 'page',
+          traceId: getTraceId(),
+          statement: getStatement(),
           stateType: stateType,
           // event,
           url: url,
-          project: getProject(),
           pageStatus: pageStatus,
           stayTime: stayTime,
           createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),

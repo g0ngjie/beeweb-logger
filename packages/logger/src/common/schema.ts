@@ -9,59 +9,67 @@ export type IPageStatus = 'enter' | 'leave'
 
 interface IBaseData {
     // 事件类型
-    readonly eventType: IType
+    eventType: IType
     // 浏览器信息
-    readonly navigatorInfo: any
-    readonly project?: string
+    navigatorInfo: any
+    // 链路ID
+    traceId?: string
+    // 声明
+    statement?: {
+        [state: string]: any
+    }
 }
 
 export interface IAddress {
     // Latitude 纬度
-    readonly lat?: string
+    lat?: string
     // Longtitude 经度
-    readonly lng?: string
-    readonly location?: {
+    lng?: string
+    location?: {
         address: string
         content: any
     },
-    readonly err?: string
+    err?: string
 }
 
 export interface IPageData extends IBaseData {
     // eventType 为 page时，type类型
-    readonly stateType: IStateType
+    stateType: IStateType
     // 原生Event回调
-    readonly event?: IEvent
+    event?: IEvent
     // 内容
-    readonly content?: any
+    content?: any
     // 页面位置
-    readonly url: string
-    readonly createTime: string
+    url: string
+    createTime: string
     // 页面停留时长
-    readonly stayTime: number | string
+    stayTime: number | string
     // 页面进入/离开
-    readonly pageStatus: IPageStatus
-    readonly address: IAddress
+    pageStatus: IPageStatus
+    address: IAddress
 }
 
 export interface IClickData extends IBaseData {
     // 内容
-    readonly content?: any
+    content?: any
     // 页面位置
-    readonly url: string
-    readonly createTime: string
+    url: string
+    createTime: string
 }
 
-export interface ICustomData {
-    readonly [propName: string]: string | number
+export interface ICustomData extends IBaseData {
+    [key: string]: any
 }
 
 /**加密函数 */
 export type IEncryptionFunc = Function | 'useDefault'
 
 export interface IConfigOptions {
-    project?: string,
-    mapURI?: string,
-    serverURL?: string,
+    traceId?: string
+    mapURI?: string
+    serverURL?: string
     encryptionFunc?: IEncryptionFunc
+    statement?: {
+        [state: string]: any
+    }
 }
