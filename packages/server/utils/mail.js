@@ -42,7 +42,9 @@ exports.getHtmlTemplate = (rowsMap = {}) => {
       for (const label in rows) {
         if (Object.hasOwnProperty.call(rows, label)) {
           let content = rows[label];
+          if (!content) continue
           if (label === 'statement') content = JSON.stringify(content)
+          if (label === 'content' && typeof content === 'object') content = JSON.stringify(content)
           template += `
           <div style="width: 100%; margin: 1px;word-wrap:break-word;word-break:normal;">
             <div style="
@@ -54,7 +56,7 @@ exports.getHtmlTemplate = (rowsMap = {}) => {
                 font-size: 12px; 
                 border-radius: 5px;">
                 <span style="color: #666;font-size: 13px;font-weight: bold;width: 90px;display: inline-block;">${label}</span>
-                <span>${content || '_'}</span>
+                <span>${content}</span>
             </div>
           </div>
           `;
