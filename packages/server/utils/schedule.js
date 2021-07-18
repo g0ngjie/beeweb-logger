@@ -1,6 +1,6 @@
 const schedule = require("node-schedule");
 const { Base64 } = require("./secret");
-const { setMail, getHtml } = require("./mail");
+const { setMail, getHtmlTemplate } = require("./mail");
 const { logInfo } = require("./logs");
 const { timing, minute, hour } = require("../config");
 
@@ -23,26 +23,9 @@ exports.disptachSchedule = () => {
 /**
  * schedule mail
  */
-async function launchMail() {
-  let htmlList = "";
-  let _count = 0;
-  for (const key in cache) {
-    if (cache.hasOwnProperty(key)) {
-      const item = cache[key];
-      const { count } = item;
-      _count += count;
-      for (const label in item) {
-        if (item.hasOwnProperty(label)) {
-          const content = item[label];
-          htmlList += getHtml(label, content);
-        }
-      }
-    }
-  }
-  if (htmlList) {
-    htmlList += `<div style="margin: 10px; color: #F56C6C; font-weight: bold;">总访问量：${_count}</div>`;
-    await setMail(htmlList);
-  }
+function launchMail() {
+  const html = getHtmlTemplate(cache);
+  setMail(html);
   cache = {};
 }
 
@@ -85,7 +68,7 @@ function fmtData(reqBody) {
  * add cache
  * @param {Object} data
  */
-exports.addCache = async (data) => {
+exports.addCache = (data) => {
   const _data = fmtData(data);
   const { platform, lat, lng, userAgent } = _data;
   const _id = `${platform}_${lat}_${lng}_${userAgent}`;
@@ -97,5 +80,5 @@ exports.addCache = async (data) => {
     cache[_id] = { ..._data, count: 1 };
   }
   logInfo(_data);
-  if (!timing) await launchMail();
+  if (!timing) launchMail();
 };

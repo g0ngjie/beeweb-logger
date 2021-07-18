@@ -14,7 +14,17 @@
 
 <script type="module">
     import { mount, listener, handleClick } from "../../logger/lib/index.esm.min.js";
-    mount({ traceId: 'xxxabc', serverURL: 'http://localhost:12345', encryptionFunc: 'useDefault' });
+    mount({
+        traceId: 'xxxabc',
+        serverURL: 'http://localhost:12345',
+        encryptionFunc: 'useDefault',
+        statement: {
+            project: 'logger-server',
+            pid: 'AAAAAAAAAAAAAAAAAAAAAAAAAA',
+            space: 'space X',
+            container: 'hasagi'
+        }
+    });
     listener(({ detail }) => console.log(detail))
     window.onClick = () => handleClick('test click')
 </script>

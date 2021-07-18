@@ -28,24 +28,42 @@ exports.setMail = async html => {
   });
 };
 
-exports.getHtml = (label, content) => {
-  let _html = `<div style="width: 100%; margin: 5px;display: flex;">
-      <div style="margin: 5px;">
-      <strong style="color: #666;font-size: 15px;">${label}</strong>`;
-  if (content) {
-    _html += `<span
-      style="border: 1px solid #d9ecff;
-      box-sizing: border-box;
-      margin: 5px;
-      color: #409eff;
-      background-color: #ecf5ff;
-      display: inline-block;
-      padding: 0 10px;
-      line-height: 30px;
-      font-size: 12px; 
-      border-radius: 5px;"
-    >${content}</span>`;
+/**获取Html模版 */
+exports.getHtmlTemplate = (rowsMap = {}) => {
+  let template = ''
+  let total = 0;
+  for (const _id in rowsMap) {
+    if (Object.hasOwnProperty.call(rowsMap, _id)) {
+      const rows = rowsMap[_id] || {};
+      const { count } = rows
+      total += count
+      // 容器
+      template += '<div style="padding-bottom: 5px; border-bottom: 1px #ecf5ff solid;">'
+      for (const label in rows) {
+        if (Object.hasOwnProperty.call(rows, label)) {
+          let content = rows[label];
+          if (label === 'statement') content = JSON.stringify(content)
+          template += `
+          <div style="width: 100%; margin: 1px;word-wrap:break-word;word-break:normal;">
+            <div style="
+                border: 1px solid #d9ecff;
+                color: #409eff;
+                background-color: #ecf5ff;
+                padding: 0 10px;
+                line-height: 23px;
+                font-size: 12px; 
+                border-radius: 5px;">
+                <span style="color: #666;font-size: 13px;font-weight: bold;width: 90px;display: inline-block;">${label}</span>
+                <span>${content || '_'}</span>
+            </div>
+          </div>
+          `;
+        }
+      }
+      template += '</div>'
+    }
   }
-  _html += `</div></div>`;
-  return _html;
+
+  template += `<strong style="margin: 10px;color:#F56C6C;font-size: 12px;">总访问量：${total}</strong>`;
+  return template
 };
