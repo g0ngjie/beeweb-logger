@@ -50,7 +50,8 @@ listener(function(response) {...})
 
 | Option         | Type                     | Required | Description                                                                               |
 | :------------- | :----------------------- | :------- | :---------------------------------------------------------------------------------------- |
-| project        | String                   | false    | 项目                                                                                      |
+| traceId        | String                   | false    | 链路 ID                                                                                   |
+| statement      | Object                   | false    | 声明                                                                                      |
 | mapURI         | String                   | false    | 地图定位,默认采用百度地图定位                                                             |
 | serverURL      | String                   | false    | 后端接口请求地址                                                                          |
 | encryptionFunc | Function \| 'useDefault' | false    | Function: 接收一个加密函数,对监听到的参数做处理<br />'useDefault': 默认使用**Base64**加密 |
