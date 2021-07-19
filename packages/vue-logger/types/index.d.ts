@@ -16,9 +16,11 @@ export interface IConfigOptions {
     };
 }
 
+declare function mount(options?: IConfigOptions): void;
+
 declare module 'vue/types/vue' {
     interface Vue {
         /** Show a message box */
-        $logMount: IConfigOptions
+        $logMount(options: IConfigOptions): void
     }
 }
