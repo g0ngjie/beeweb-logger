@@ -7,8 +7,8 @@ import "element-ui/lib/theme-chalk/index.css";
 import RoutesComponent from "./components/routes.vue";
 Vue.component("routes-component", RoutesComponent);
 
-import './loggerMount'
-// import './vuelogger'
+// import './loggerMount'
+import './vuelogger'
 
 
 Vue.use(ElementUI);
