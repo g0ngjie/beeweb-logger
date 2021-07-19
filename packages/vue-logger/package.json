@@ -21,9 +21,6 @@
     "type": "git",
     "url": "git+https://github.com/g0ngjie/beeweb-logger.git"
   },
-  "scripts": {
-    "build": "tsc"
-  },
   "bugs": {
     "url": "https://github.com/g0ngjie/beeweb-logger/issues"
   }
