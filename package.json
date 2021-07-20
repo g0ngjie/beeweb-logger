@@ -8,14 +8,14 @@
     "lerna": "^4.0.0"
   },
   "scripts": {
-    "build": "lerna run build",
+    "build": "lerna run build --scope @beeweb/logger --parallel",
     "publish": "lerna publish from-git --yes",
     "version": "lerna version patch --yes",
     "changed": "lerna changed",
-    "show": "lerna list",
-    "vuepage": "lerna exec --scope vuepage yarn serve",
-    "serve": "lerna exec --scope @beeweb/logger-server yarn serve",
-    "watch": "lerna exec --scope @beeweb/logger yarn watch",
-    "init:install": "lerna bootstrap"
+    "ls": "lerna list",
+    "page": "lerna run serve --scope spa --parallel",
+    "serve": "lerna run serve --scope @beeweb/logger-server --parallel",
+    "watch": "lerna run watch --parallel",
+    "bts": "lerna bootstrap"
   }
 }
