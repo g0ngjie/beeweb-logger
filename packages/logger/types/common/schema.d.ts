@@ -9,6 +9,7 @@ interface IBaseData {
     statement?: {
         [state: string]: any;
     };
+    browser: string;
 }
 export interface IAddress {
     lat?: string;

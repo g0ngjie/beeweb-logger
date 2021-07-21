@@ -24,6 +24,7 @@ listener(function(response) {...})
 /* listener response
 {
     address: xxx,
+    browser: "Chrome",
     createTime: "2021-07-17 19:46:01"
     eventType: "page"
     navigatorInfo: {
@@ -38,7 +39,8 @@ listener(function(response) {...})
     }
     pageStatus: "enter"
     stateType: "load"
-    stayTime: 0
+    stayTime: 0,
+    traceId: xxx,
     url: "http://127.0.0.1:5500/packages/logger/example/index.html"
 }
 */

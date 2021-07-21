@@ -1,6 +1,6 @@
 import trigger from "./trigger";
 import { IAddress, IClickData, ICustomData, IPageData, IPageStatus, IStateType } from "./schema";
-import { formatDate, getNavigatorInfo, getAddressInfo, getStatement, getTraceId } from "./utils";
+import { formatDate, getNavigatorInfo, getAddressInfo, getStatement, getTraceId, getKernel } from "./utils";
 
 /**
  * 自定义触发器
@@ -13,6 +13,7 @@ export function handleCustom(content?: any): void {
         statement: getStatement(),
         content,
         url: window.location.href,
+        browser: getKernel(),
         navigatorInfo: getNavigatorInfo(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
     })
@@ -29,6 +30,7 @@ export function handleClick(content?: any): void {
         statement: getStatement(),
         content,
         url: window.location.href,
+        browser: getKernel(),
         navigatorInfo: getNavigatorInfo(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
     })
@@ -61,6 +63,7 @@ export function handlePage(
                 pageStatus,
                 stayTime,
                 createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                browser: getKernel(),
                 navigatorInfo: getNavigatorInfo(),
                 address
             })

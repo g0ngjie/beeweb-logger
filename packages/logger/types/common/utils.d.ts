@@ -28,4 +28,7 @@ export declare function getStatement(): {
 /**获取链路ID */
 export declare function getTraceId(): string | undefined;
 export declare function getAddressInfo(): Promise<IAddress>;
+export declare const isBrowser: boolean;
+/**获取浏览器内核类型 */
+export declare function getKernel(): string;
 export {};

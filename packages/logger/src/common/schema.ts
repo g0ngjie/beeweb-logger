@@ -18,6 +18,8 @@ interface IBaseData {
     statement?: {
         [state: string]: any
     }
+    // 终端
+    browser: string
 }
 
 export interface IAddress {
