@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@alrale/common-lib@^1.0.57":
-  version "1.0.57"
-  resolved "https://registry.nlark.com/@alrale/common-lib/download/@alrale/common-lib-1.0.57.tgz#62424bafe08218d510d175cde0f29aa65692d800"
-  integrity sha1-YkJLr+CCGNUQ0XXN4PKaplaS2AA=
+"@alrale/common-lib@^1.0.58":
+  version "1.0.58"
+  resolved "https://registry.yarnpkg.com/@alrale/common-lib/-/common-lib-1.0.58.tgz#6c950ae5b7401d45f2b5a4b286162cbc45c586cd"
+  integrity sha512-hN1cJmSEdQS2+QaEZqxmRiXdCTEV2RlXSA91e3ot/4qYmJgQpHPeDrO05rALlnNeebBha0ICmH+TPxnbJMD9NQ==
 
 "@babel/code-frame@7.12.11":
   version "7.12.11"

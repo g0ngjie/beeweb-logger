@@ -23,7 +23,7 @@
     "url": "https://github.com/g0ngjie/beeweb-logger/issues"
   },
   "dependencies": {
-    "@alrale/common-lib": "^1.0.57",
+    "@alrale/common-lib": "^1.0.58",
     "debug": "^4.1.1",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",

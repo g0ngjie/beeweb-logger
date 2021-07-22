@@ -1,6 +1,6 @@
 const router = require("koa-router")();
-const { findAll } = require("../proxy/logger");
-const { addCache } = require("../utils/schedule");
+const logProxy = require("../proxy/logger");
+const { insertData } = require("../utils/schedule");
 
 router.get("/err", async (ctx, next) => {
   ctx.type = "html";
@@ -11,14 +11,14 @@ router.get("/err", async (ctx, next) => {
 
 router.post("/", async (ctx, next) => {
   const { data } = ctx.request.body;
-  await addCache(data);
+  await insertData(data);
   ctx.status = 200;
   await next();
 });
 
 /**查询全部 */
-router.get("/all", async (ctx, next) => {
-  const all = await findAll()
+router.get("/today", async (ctx, next) => {
+  const all = await logProxy.findToday()
   ctx.body = all;
   ctx.status = 200;
   await next();
