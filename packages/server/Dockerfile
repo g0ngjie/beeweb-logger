@@ -2,6 +2,7 @@ FROM node:10.16.0
 
 # 添加源
 RUN set -eux && sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+RUN apt update
 
 WORKDIR /app
 
