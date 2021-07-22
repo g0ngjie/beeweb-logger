@@ -1,4 +1,5 @@
 const router = require("koa-router")();
+const { findAll } = require("../proxy/logger");
 const { addCache } = require("../utils/schedule");
 
 router.get("/err", async (ctx, next) => {
@@ -14,5 +15,14 @@ router.post("/", async (ctx, next) => {
   ctx.status = 200;
   await next();
 });
+
+/**查询全部 */
+router.get("/all", async (ctx, next) => {
+  const all = await findAll()
+  ctx.body = all;
+  ctx.status = 200;
+  await next();
+});
+
 
 module.exports = router;

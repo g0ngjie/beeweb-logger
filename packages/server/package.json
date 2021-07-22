@@ -23,6 +23,7 @@
     "url": "https://github.com/g0ngjie/beeweb-logger/issues"
   },
   "dependencies": {
+    "@alrale/common-lib": "^1.0.57",
     "debug": "^4.1.1",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
@@ -33,8 +34,10 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa2-cors": "^2.0.6",
+    "mysql2": "^2.2.5",
     "node-schedule": "^1.3.2",
-    "nodemailer": "^6.4.4"
+    "nodemailer": "^6.4.4",
+    "sequelize": "^6.6.5"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
