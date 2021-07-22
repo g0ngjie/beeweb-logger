@@ -3,7 +3,8 @@ const { Base64 } = require("./secret");
 const { setMail, getHtmlTemplate } = require("./mail");
 const { logInfo } = require("./logs");
 const { timing, minute, hour } = require("../config");
-const logProxy = require('../proxy/logger')
+const logProxy = require('../proxy/logger');
+const { typeIs } = require("@alrale/common-lib");
 
 let cache = {};
 
@@ -37,7 +38,8 @@ function launchMail() {
  */
 function fmtData(reqBody) {
   const decodeStr = Base64.decode(reqBody);
-  const { navigatorInfo, address: userAddr = {}, statement, ...others } = JSON.parse(decodeStr);
+  const { navigatorInfo, address: userAddr = {}, statement, content: getContent, ...others } = JSON.parse(decodeStr);
+
   const {
     userAgent, //由客户机发送服务器的 user-agent 头部的值
     appName, //浏览器的名称
@@ -62,6 +64,7 @@ function fmtData(reqBody) {
     district,
     street,
     statement: JSON.stringify(statement),
+    content: typeIs(getContent) === 'object' ? JSON.stringify(getContent) : getContent,
     ...others
   };
 }
