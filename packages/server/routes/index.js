@@ -18,7 +18,15 @@ router.post("/", async (ctx, next) => {
 
 /**查询全部 */
 router.get("/today", async (ctx, next) => {
-  const all = await logProxy.findToday()
+  const query = ctx.request.query
+  const search = {}
+  for (const key in query) {
+    if (Object.hasOwnProperty.call(query, key)) {
+      const value = query[key];
+      search[key] = value
+    }
+  }
+  const all = await logProxy.findToday(search)
   ctx.body = all;
   ctx.status = 200;
   await next();

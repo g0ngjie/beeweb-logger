@@ -22,10 +22,24 @@ exports.findAll = async (search) => {
 };
 
 /**查询当天数据 */
-exports.findToday = async () => {
+exports.findToday = async (search) => {
     const ymd = date.formatDate(new Date(), 'yyyy-MM-dd')
+    const where = {};
+    const {
+        traceId,
+        eventType,
+        stateType,
+        pageStatus,
+        address,
+    } = search;
+    if (traceId) where.traceId = { [Op.like]: `%${traceId}%` };;
+    if (eventType) where.eventType = { [Op.like]: `%${eventType}%` };
+    if (stateType) where.stateType = { [Op.like]: `%${stateType}%` };
+    if (pageStatus) where.pageStatus = { [Op.like]: `%${pageStatus}%` };
+    if (address) where.address = { [Op.like]: `%${address}%` };
+    where.createTime = { [Op.like]: `${ymd}%` }
     const result = await LoggerModel.findAll({
-        where: { createTime: { [Op.like]: `${ymd}%` } },
+        where,
         order: [["createdAt", "DESC"]]
     })
     return result;
