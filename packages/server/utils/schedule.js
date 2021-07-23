@@ -74,7 +74,7 @@ function fmtData(reqBody) {
  * @param {Object} data
  */
 exports.addCache = (data) => {
-  const _data = fmtData(data);
+  const _data = data;
   const { platform, lat, lng, userAgent } = _data;
   const _id = `${platform}_${lat}_${lng}_${userAgent}`;
   const exist = cache[_id];
@@ -92,7 +92,7 @@ exports.addCache = (data) => {
 /**插入数据 */
 exports.insertData = (data) => {
   // 缓存
-  exports.addCache(data)
   const _data = fmtData(data);
+  exports.addCache(_data)
   logProxy.create(_data)
 }
