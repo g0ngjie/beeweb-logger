@@ -1,23 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<meta charset="utf-8">
+<title>logger demo</title>
+<script src="../lib/index.umd.min.js"></script>
 
 <body>
     <button onclick="onClick()">click</button>
 </body>
 
-<script type="module">
-    import { mount, listener, handleClick } from "../lib/index.esm.min.js";
-    mount();
-    listener(({ detail }) => console.log(detail))
-    window.onClick = () => handleClick('test click')
+<script>
+    logger.mount();
+    logger.listener(({ detail }) => console.log(detail))
+    function onClick() {
+        logger.handleClick('test click')
+    }
 </script>
-
-
-</html>
