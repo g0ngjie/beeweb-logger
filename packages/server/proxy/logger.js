@@ -51,7 +51,7 @@ exports.findTodayCitys = async () => {
     const result = await LoggerModel.findAll({
         where: { createTime: { [Op.like]: `${ymd}%` } },
         attributes: [
-            '_address',
+            ['_address', 'address'],
             'city',
             'traceId',
             [seq.fn('count', seq.col('id')), 'count']
