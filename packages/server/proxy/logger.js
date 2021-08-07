@@ -45,6 +45,22 @@ exports.findToday = async (search) => {
     return result;
 }
 
+/**查询当天访问的城市列表 */
+exports.findTodayCitys = async () => {
+    const ymd = date.formatDate(new Date(), 'yyyy-MM-dd')
+    const result = await LoggerModel.findAll({
+        where: { createTime: { [Op.like]: `${ymd}%` } },
+        attributes: [
+            '_address',
+            'city',
+            'traceId',
+            [seq.fn('count', seq.col('id')), 'count']
+        ],
+        group: ['_address', 'city', 'traceId'],
+    })
+    return result;
+}
+
 exports.findOne = async (search) => {
     const result = await LoggerModel.findOne(search);
     return result;

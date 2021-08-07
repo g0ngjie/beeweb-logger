@@ -32,5 +32,12 @@ router.get("/today", async (ctx, next) => {
   await next();
 });
 
+/**查询当天各城市访问情况 */
+router.get("/city", async (ctx, next) => {
+  const citys = await logProxy.findTodayCitys()
+  ctx.body = citys;
+  ctx.status = 200;
+  await next();
+})
 
 module.exports = router;
