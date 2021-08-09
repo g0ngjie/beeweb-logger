@@ -61,6 +61,24 @@ exports.findTodayCitys = async () => {
     return result;
 }
 
+/**(当天)简单结构查询 */
+exports.findTodaySimple = async () => {
+    const ymd = date.formatDate(new Date(), 'yyyy-MM-dd')
+    const where = {};
+    where.createTime = { [Op.like]: `${ymd}%` }
+    const attributes = [
+        'id', 'traceId', 'eventType', 'stateType', 'pageStatus',
+        'stayTime', 'createTime', 'statement', 'content', 'browser',
+        'url', ['_address', 'address'], 'city'
+    ]
+    const result = await LoggerModel.findAll({
+        where,
+        attributes,
+        order: [["createdAt", "DESC"]]
+    })
+    return result;
+}
+
 exports.findOne = async (search) => {
     const result = await LoggerModel.findOne(search);
     return result;

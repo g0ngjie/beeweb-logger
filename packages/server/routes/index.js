@@ -40,4 +40,12 @@ router.get("/city", async (ctx, next) => {
   await next();
 })
 
+/**(当天)简单结构查询 */
+router.get("/simple", async (ctx, next) => {
+  const simples = await logProxy.findTodaySimple()
+  ctx.body = simples;
+  ctx.status = 200;
+  await next();
+})
+
 module.exports = router;
