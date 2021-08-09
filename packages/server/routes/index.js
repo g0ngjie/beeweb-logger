@@ -48,4 +48,18 @@ router.get("/simple", async (ctx, next) => {
   await next();
 })
 
+/**(当天)结构化 */
+router.get("/struct", async (ctx, next) => {
+  const simples = await logProxy.findTodaySimple()
+  const map = {}
+  for (let i = 0; i < simples.length; i++) {
+    const { traceId, ...other } = simples[i];
+    if (map[traceId]) map[traceId].push(other)
+    else map[traceId] = [other]
+  }
+  ctx.body = map;
+  ctx.status = 200;
+  await next();
+})
+
 module.exports = router;
