@@ -1,5 +1,5 @@
 export declare type IType = 'page' | 'click' | 'custom';
-export declare type IStateType = 'load' | 'popstate' | 'pushState' | 'replaceState';
+export declare type IStateType = 'load' | 'popstate' | 'pushState' | 'replaceState' | 'unload';
 export declare type IEvent = WindowEventMap['load'] | WindowEventMap['popstate'] | Event;
 export declare type IPageStatus = 'enter' | 'leave';
 interface IBaseData {

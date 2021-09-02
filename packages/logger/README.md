@@ -74,7 +74,7 @@ listener(function(response) {...})
 
 > 挂载页面级别监听
 >
-> 监听类别: 'load' | 'popstate' | 'pushState' | 'replaceState'
+> 监听类别: 'load' | 'popstate' | 'pushState' | 'replaceState' | 'unload'
 
 #### handleClick 函数
 

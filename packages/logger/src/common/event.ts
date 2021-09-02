@@ -1,4 +1,4 @@
-import { handlePage } from "./handler";
+import { handlePage, unloadPage } from "./handler";
 import { IEvent, IStateType } from "./schema";
 
 /**
@@ -40,6 +40,10 @@ export function mountPageEvent(): void {
 
         // 当前页面
         const currentPage: string = window.location.href
+        if (type === 'unload') {
+            unloadPage(type, stayTime, currentPage, 'leave')
+            return
+        }
         // 如果存在前置页面
         if (frontPage) {
             // 则触发离开
@@ -56,6 +60,11 @@ export function mountPageEvent(): void {
     window.addEventListener("load", function (event: WindowEventMap['load']) {
         currentTrigger('load', event)
     });
+
+    /***************************************页面关闭*********************************************/
+    window.addEventListener('unload', function (event) {
+        currentTrigger('unload', event)
+    })
 
     /***************************************页面不刷新，路由变化**********************************/
     /**

@@ -1,7 +1,7 @@
 
 export type IType = 'page' | 'click' | 'custom'
 
-export type IStateType = 'load' | 'popstate' | 'pushState' | 'replaceState'
+export type IStateType = 'load' | 'popstate' | 'pushState' | 'replaceState' | 'unload'
 
 export type IEvent = WindowEventMap['load'] | WindowEventMap['popstate'] | Event
 

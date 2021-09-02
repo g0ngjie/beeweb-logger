@@ -18,3 +18,4 @@ export declare function handleClick(content?: any): void;
  * @param {IPageStatus} pageStatus
  */
 export declare function handlePage(stateType: IStateType, stayTime: number | string, url: string, pageStatus: IPageStatus): void;
+export declare function unloadPage(stateType: IStateType, stayTime: number | string, url: string, pageStatus: IPageStatus): void;

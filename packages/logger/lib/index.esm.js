@@ -20,76 +20,28 @@ function listener (cb) {
   }, false);
 }
 
-function sender (data) {
-  var fetchUrl = window[Config.SERVER_URL.toString()];
-  if (fetchUrl) fetch(fetchUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      data: data
-    }),
-    mode: 'cors'
-  });
-}
+function typeIs(target) {
+  var Type = {
+    '[object String]': 'string',
+    '[object Number]': 'number',
+    '[object Boolean]': 'boolean',
+    '[object Symbol]': 'symbol',
+    '[object Undefined]': 'undefined',
+    '[object Null]': 'null',
+    '[object Function]': 'function',
+    '[object Date]': 'date',
+    '[object Array]': 'array',
+    '[object Object]': 'object',
+    '[object Map]': 'map',
+    '[object RegExp]': 'regexp',
+    '[object Error]': 'error',
+    '[object HTMLDocument]': 'document',
+    '[object global]': 'window' // window 是全局对象 global 的引用
 
-/**配置百度地图URI */
-
-function configMapURI(uri) {
-  window[Config.LOCATION_URL.toString()] = uri;
-}
-/**配置服务端接收 */
-
-
-function configServerURL(url) {
-  window[Config.SERVER_URL.toString()] = url;
-}
-/**
- * 启用加密
- * 需要注入一条加密函数
- */
-
-
-function configEncryption(encryptionFunc) {
-  window[Config.ENCRYPTION.toString()] = encryptionFunc;
-}
-/**配置项目名 */
-
-
-function configStatement(statement) {
-  window[Config.STATEMENT.toString()] = statement;
-}
-/**配置链路ID */
-
-
-function configTraceId(traceId) {
-  window[Config.TRACE_ID.toString()] = traceId;
-}
-/**加载配置 */
-
-
-function loadConfig(options) {
-  var traceId = options.traceId,
-      mapURI = options.mapURI,
-      serverURL = options.serverURL,
-      encryptionFunc = options.encryptionFunc,
-      statement = options.statement; // 默认配置
-
-  if (traceId) configTraceId(traceId);
-  if (mapURI) configMapURI(mapURI);
-
-  if (serverURL) {
-    configServerURL(serverURL);
-    listener(function (event) {
-      return sender(event.detail);
-    });
-  } // 声明
-
-
-  if (statement) configStatement(statement); // 加密
-
-  if (encryptionFunc) configEncryption(encryptionFunc);
+  };
+  var find_proto = Object.prototype.toString.call(target);
+  var type_to_string = Type[find_proto];
+  return type_to_string;
 }
 
 /**
@@ -326,6 +278,129 @@ function getOs() {
   return os;
 }
 
+function cleanArray(actual) {
+  var newArray = [];
+
+  for (var i = 0; i < actual.length; i++) {
+    if (actual[i]) {
+      newArray.push(actual[i]);
+    }
+  }
+
+  return newArray;
+}
+/**
+ * object -> ?xxx=xxx&xxx=xxx
+ *
+ * @export
+ * @param {Object} e
+ * @returns {string}
+ */
+
+
+function queryToString(e) {
+  if (!e) return '';
+  var type = typeIs(e);
+  if (type !== 'object') return '';
+
+  var _params = cleanArray(Object.keys(e).map(function (key) {
+    if (!e[key]) return ''; // return `${encodeURIComponent(key)}=${encodeURIComponent(e[key])}`
+
+    return "".concat(key, "=").concat(e[key]);
+  })).join('&');
+
+  return _params ? "?".concat(_params) : '';
+}
+
+function sender (data) {
+  var fetchUrl = window[Config.SERVER_URL.toString()];
+  if (fetchUrl) fetch(fetchUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      data: data
+    }),
+    mode: 'cors'
+  });
+}
+/*
+    Chrome 37+
+    Firefox (Gecko) 31+
+    Internet Explorer 不支持
+    Opera 24+
+    Safari 不支持
+*/
+
+/**异步数据传输 */
+
+function asyncSenderTxt(data) {
+  var contentTxt = queryToString({
+    data: data
+  });
+  var serverURL = window[Config.SERVER_URL.toString()];
+  if (serverURL) navigator.sendBeacon("".concat(serverURL, "/async"), contentTxt);
+}
+
+/**配置百度地图URI */
+
+function configMapURI(uri) {
+  window[Config.LOCATION_URL.toString()] = uri;
+}
+/**配置服务端接收 */
+
+
+function configServerURL(url) {
+  window[Config.SERVER_URL.toString()] = url;
+}
+/**
+ * 启用加密
+ * 需要注入一条加密函数
+ */
+
+
+function configEncryption(encryptionFunc) {
+  window[Config.ENCRYPTION.toString()] = encryptionFunc;
+}
+/**配置项目名 */
+
+
+function configStatement(statement) {
+  window[Config.STATEMENT.toString()] = statement;
+}
+/**配置链路ID */
+
+
+function configTraceId(traceId) {
+  window[Config.TRACE_ID.toString()] = traceId;
+}
+/**加载配置 */
+
+
+function loadConfig(options) {
+  var traceId = options.traceId,
+      mapURI = options.mapURI,
+      serverURL = options.serverURL,
+      encryptionFunc = options.encryptionFunc,
+      statement = options.statement; // 默认配置
+
+  if (traceId) configTraceId(traceId);
+  if (mapURI) configMapURI(mapURI);
+
+  if (serverURL) {
+    configServerURL(serverURL);
+    listener(function (event) {
+      return sender(event.detail);
+    });
+  } // 声明
+
+
+  if (statement) configStatement(statement); // 加密
+
+  if (encryptionFunc) configEncryption(encryptionFunc);
+}
+
 /**
  * 消息触发器
  * @param {EventType} type 事件类型
@@ -339,7 +414,12 @@ function trigger (data) {
   if (encryptionFunc) {
     if (encryptionFunc === 'useDefault') detail = Base64.encode(JSON.stringify(data)); // 此功能与listener一样
     else detail = encryptionFunc(data);
-  } else detail = data;
+  } else detail = data; // 浏览器关闭
+
+
+  if (data.stateType === 'unload') {
+    asyncSenderTxt(detail);
+  }
 
   var event = new CustomEvent(EventType.EVENT, {
     detail: detail,
@@ -399,7 +479,10 @@ function pageTrigger(stateType, stayTime, url, pageStatus, address) {
     os: getOs(),
     address: address
   });
-}
+} // 用于关闭浏览器时用
+
+
+var cacheAddress = {};
 /**
  * 页面级别触发器
  * @param {IStateType} stateType 
@@ -409,14 +492,18 @@ function pageTrigger(stateType, stayTime, url, pageStatus, address) {
  * @param {IPageStatus} pageStatus 
  */
 
-
 function handlePage(stateType, stayTime, url, pageStatus) {
   var mapURI = window[Config.LOCATION_URL.toString()];
   if (!mapURI) getAddressInfo().then(function (address) {
-    return pageTrigger(stateType, stayTime, url, pageStatus, address);
+    cacheAddress = address;
+    pageTrigger(stateType, stayTime, url, pageStatus, address);
   });else getAddressInfoByBaiduMap().then(function (address) {
-    return pageTrigger(stateType, stayTime, url, pageStatus, address);
+    cacheAddress = address;
+    pageTrigger(stateType, stayTime, url, pageStatus, address);
   });
+}
+function unloadPage(stateType, stayTime, url, pageStatus) {
+  pageTrigger(stateType, stayTime, url, pageStatus, cacheAddress);
 }
 
 /**
@@ -459,7 +546,13 @@ function mountPageEvent() {
   function currentTrigger(type, event) {
     var stayTime = type === 'load' ? 0 : getStayTime(); // 当前页面
 
-    var currentPage = window.location.href; // 如果存在前置页面
+    var currentPage = window.location.href;
+
+    if (type === 'unload') {
+      unloadPage(type, stayTime, currentPage, 'leave');
+      return;
+    } // 如果存在前置页面
+
 
     if (frontPage) {
       // 则触发离开
@@ -477,6 +570,11 @@ function mountPageEvent() {
 
   window.addEventListener("load", function (event) {
     currentTrigger('load');
+  });
+  /***************************************页面关闭*********************************************/
+
+  window.addEventListener('unload', function (event) {
+    currentTrigger('unload');
   });
   /***************************************页面不刷新，路由变化**********************************/
 

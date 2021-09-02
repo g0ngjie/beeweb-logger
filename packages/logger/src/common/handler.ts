@@ -60,6 +60,9 @@ function pageTrigger(
     })
 }
 
+// 用于关闭浏览器时用
+let cacheAddress: IAddress | IBaiduMapAddress = {}
+
 /**
  * 页面级别触发器
  * @param {IStateType} stateType 
@@ -77,7 +80,22 @@ export function handlePage(
 ): void {
     const mapURI: string = (window as any)[Config.LOCATION_URL.toString()]
     if (!mapURI) getAddressInfo()
-        .then((address: IAddress) => pageTrigger(stateType, stayTime, url, pageStatus, address))
+        .then((address: IAddress) => {
+            cacheAddress = address
+            pageTrigger(stateType, stayTime, url, pageStatus, address)
+        })
     else getAddressInfoByBaiduMap()
-        .then((address: IBaiduMapAddress) => pageTrigger(stateType, stayTime, url, pageStatus, address))
+        .then((address: IBaiduMapAddress) => {
+            cacheAddress = address
+            pageTrigger(stateType, stayTime, url, pageStatus, address)
+        })
+}
+
+export function unloadPage(
+    stateType: IStateType,
+    stayTime: number | string,
+    url: string,
+    pageStatus: IPageStatus,
+) {
+    pageTrigger(stateType, stayTime, url, pageStatus, cacheAddress)
 }
