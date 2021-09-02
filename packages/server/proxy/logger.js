@@ -51,12 +51,12 @@ exports.findTodayCitys = async () => {
     const result = await LoggerModel.findAll({
         where: { createTime: { [Op.like]: `${ymd}%` } },
         attributes: [
-            ['_address', 'address'],
+            'address',
             'city',
             'traceId',
             [seq.fn('count', seq.col('id')), 'count']
         ],
-        group: ['_address', 'city', 'traceId'],
+        group: ['address', 'city', 'traceId'],
     })
     return result;
 }
@@ -68,8 +68,8 @@ exports.findTodaySimple = async () => {
     where.createTime = { [Op.like]: `${ymd}%` }
     const attributes = [
         'id', 'traceId', 'eventType', 'stateType', 'pageStatus',
-        'stayTime', 'createTime', 'statement', 'content', 'browser',
-        'url', ['_address', 'address'], 'city'
+        'stayTime', 'createTime', 'statement', 'content',
+        'url', 'address', 'city'
     ]
     const result = await LoggerModel.findAll({
         where,
