@@ -174,29 +174,6 @@ var Base64 = {
     return t;
   }
 };
-/**获取终端信息 */
-
-function getNavigatorInfo() {
-  var _navigator = navigator,
-      userAgent = _navigator.userAgent,
-      appCodeName = _navigator.appCodeName,
-      appName = _navigator.appName,
-      appVersion = _navigator.appVersion,
-      language = _navigator.language,
-      onLine = _navigator.onLine,
-      platform = _navigator.platform,
-      vendor = _navigator.vendor;
-  return {
-    userAgent: userAgent,
-    appCodeName: appCodeName,
-    appName: appName,
-    appVersion: appVersion,
-    language: language,
-    onLine: onLine,
-    platform: platform,
-    vendor: vendor
-  };
-}
 /**获取项目 */
 
 function getStatement() {
@@ -224,8 +201,8 @@ function appendJs(src, cb) {
   };
 }
 
-var cacheLocation = null;
-function getAddressInfo() {
+var cacheLocation;
+function getAddressInfoByBaiduMap() {
   return new Promise(function (resolve) {
     var mapURI = window[Config.LOCATION_URL.toString()];
     if (!mapURI) resolve({
@@ -258,67 +235,95 @@ function getAddressInfo() {
     }
   });
 }
-var isBrowser = typeof window !== 'undefined';
-/**获取浏览器内核类型 */
+/**获取经纬度，地址等信息 */
 
-function getKernel() {
-  if (!isBrowser) return 'Nil';
-  var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+function getAddressInfo() {
+  return new Promise(function (resolve) {
+    if (cacheLocation) resolve(cacheLocation);else fetch('https://ipapi.co/json/').then(function (res) {
+      return res.json();
+    }).then(function (addr) {
+      var ip = addr.ip,
+          latitude = addr.latitude,
+          longitude = addr.longitude,
+          version = addr.version,
+          region = addr.region,
+          city = addr.city;
+      cacheLocation = {
+        ip: ip,
+        latitude: latitude,
+        longitude: longitude,
+        version: version,
+        region: region,
+        city: city
+      };
+      resolve(cacheLocation);
+    })["catch"](function (err) {
+      resolve({
+        err: '位置获取异常'
+      });
+    });
+  });
+}
+/**获取浏览器内核和版本信息 */
 
-  var isOpera = userAgent.indexOf('Opera') > -1; //判断是否Opera浏览器
+function getKernelVersion(type) {
+  var browser = {
+    msie: false,
+    firefox: false,
+    opera: false,
+    safari: false,
+    chrome: false,
+    netscape: false,
+    appname: 'unknown',
+    version: 0
+  },
+      ua = window.navigator.userAgent.toLowerCase();
 
-  var isIE = userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1 && !isOpera; //判断是否IE浏览器
-
-  var isEdge = userAgent.indexOf('Edge') > -1; //判断是否IE的Edge浏览器
-
-  var isFF = userAgent.indexOf('Firefox') > -1; //判断是否Firefox浏览器
-
-  var isSafari = userAgent.indexOf('Safari') > -1 && userAgent.indexOf('Chrome') == -1; //判断是否Safari浏览器
-
-  var isChrome = userAgent.indexOf('Chrome') > -1 && userAgent.indexOf('Safari') > -1; //判断Chrome浏览器
-
-  if (isIE) {
-    var reIE = new RegExp('MSIE (\\d+\\.\\d+);');
-    reIE.test(userAgent);
-    var fIEVersion = parseFloat(RegExp['$1']);
-
-    if (fIEVersion == 7) {
-      return 'IE7';
-    } else if (fIEVersion == 8) {
-      return 'IE8';
-    } else if (fIEVersion == 9) {
-      return 'IE9';
-    } else if (fIEVersion == 10) {
-      return 'IE10';
-    } else if (fIEVersion == 11) {
-      return 'IE11';
-    } else {
-      //IE版本过低
-      return 'IE';
-    }
+  if (/(msie|firefox|opera|chrome|netscape)\D+(\d[\d.]*)/.test(ua)) {
+    browser[RegExp.$1] = true;
+    browser.appname = RegExp.$1;
+    browser.version = RegExp.$2;
+  } else if (/version\D+(\d[\d.]*).*safari/.test(ua)) {
+    // safari
+    browser.safari = true;
+    browser.appname = 'safari';
+    browser.version = RegExp.$2;
   }
 
-  if (isOpera) {
-    return 'Opera';
+  var result;
+
+  switch (type) {
+    case 'name':
+      result = browser.appname;
+      break;
+
+    case 'version':
+      result = browser.version;
+      break;
+
+    default:
+      result = browser.appname + ' ' + browser.version;
+      break;
   }
 
-  if (isEdge) {
-    return 'Edge';
+  return result;
+}
+
+/**获取操作系统 */
+function getOs() {
+  var os = 'Unknown';
+  var UserAgent = navigator.userAgent.toLowerCase();
+  if (navigator.platform == 'Win32' || navigator.platform == 'Windows') os = 'Windows';
+  if (navigator.platform == 'Mac68K' || navigator.platform == 'MacPPC' || navigator.platform == 'Macintosh' || navigator.platform == 'MacIntel') os = 'Mac';
+  if (UserAgent.indexOf('iPhone') > -1) os = 'iphone';
+  if (UserAgent.indexOf('iPod') > -1) os = 'ipod';
+  if (UserAgent.indexOf('iPad') > -1) os = 'ipad';
+
+  if (UserAgent.indexOf('Linux') > -1) {
+    if (UserAgent.indexOf('Android') > -1) os = 'Android';else os = 'Linux';
   }
 
-  if (isFF) {
-    return 'FF';
-  }
-
-  if (isSafari) {
-    return 'Safari';
-  }
-
-  if (isChrome) {
-    return 'Chrome';
-  }
-
-  return 'None';
+  return os;
 }
 
 /**
@@ -356,8 +361,8 @@ function handleCustom(content) {
     statement: getStatement(),
     content: content,
     url: window.location.href,
-    browser: getKernel(),
-    navigatorInfo: getNavigatorInfo(),
+    kernel: getKernelVersion(),
+    os: getOs(),
     createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
   });
 }
@@ -373,9 +378,26 @@ function handleClick(content) {
     statement: getStatement(),
     content: content,
     url: window.location.href,
-    browser: getKernel(),
-    navigatorInfo: getNavigatorInfo(),
+    kernel: getKernelVersion(),
+    os: getOs(),
     createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+  });
+}
+
+function pageTrigger(stateType, stayTime, url, pageStatus, address) {
+  trigger({
+    eventType: 'page',
+    traceId: getTraceId(),
+    statement: getStatement(),
+    stateType: stateType,
+    // event,
+    url: url,
+    pageStatus: pageStatus,
+    stayTime: stayTime,
+    createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+    kernel: getKernelVersion(),
+    os: getOs(),
+    address: address
   });
 }
 /**
@@ -387,22 +409,13 @@ function handleClick(content) {
  * @param {IPageStatus} pageStatus 
  */
 
+
 function handlePage(stateType, stayTime, url, pageStatus) {
-  getAddressInfo().then(function (address) {
-    trigger({
-      eventType: 'page',
-      traceId: getTraceId(),
-      statement: getStatement(),
-      stateType: stateType,
-      // event,
-      url: url,
-      pageStatus: pageStatus,
-      stayTime: stayTime,
-      createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-      browser: getKernel(),
-      navigatorInfo: getNavigatorInfo(),
-      address: address
-    });
+  var mapURI = window[Config.LOCATION_URL.toString()];
+  if (!mapURI) getAddressInfo().then(function (address) {
+    return pageTrigger(stateType, stayTime, url, pageStatus, address);
+  });else getAddressInfoByBaiduMap().then(function (address) {
+    return pageTrigger(stateType, stayTime, url, pageStatus, address);
   });
 }
 

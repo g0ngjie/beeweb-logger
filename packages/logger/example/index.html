@@ -1,9 +1,10 @@
 <meta charset="utf-8">
 <title>logger demo</title>
-<script src="../lib/index.umd.min.js"></script>
+<script src="../lib/index.umd.js"></script>
 
 <body>
     <button onclick="onClick()">click</button>
+    <button onclick="onReload()">reload</button>
 </body>
 
 <script>
@@ -11,5 +12,8 @@
     logger.listener(({ detail }) => console.log(detail))
     function onClick() {
         logger.handleClick('test click')
+    }
+    function onReload() {
+        location.reload()
     }
 </script>

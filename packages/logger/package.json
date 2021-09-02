@@ -8,7 +8,7 @@
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint 'src/**/*.{js,ts}'",
-    "watch": "rollup -w -c --environment FORMAT:minesm",
+    "watch": "rollup -w -c --environment FORMAT:umd",
     "build:types": "tsc -p . --emitDeclarationOnly",
     "build:esm": "rollup -c --environment FORMAT:esm",
     "build:minesm": "rollup -c --environment FORMAT:minesm",

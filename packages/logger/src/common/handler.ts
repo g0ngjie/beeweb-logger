@@ -1,6 +1,7 @@
 import trigger from "./trigger";
-import { IAddress, IClickData, ICustomData, IPageData, IPageStatus, IStateType } from "./schema";
-import { formatDate, getNavigatorInfo, getAddressInfo, getStatement, getTraceId, getKernel } from "./utils";
+import { IAddress, IBaiduMapAddress, IClickData, ICustomData, IPageData, IPageStatus, IStateType } from "./schema";
+import { formatDate, getOs, getAddressInfo, getStatement, getTraceId, getKernelVersion, getAddressInfoByBaiduMap } from "./utils";
+import { Config } from "./enum";
 
 /**
  * 自定义触发器
@@ -13,8 +14,8 @@ export function handleCustom(content?: any): void {
         statement: getStatement(),
         content,
         url: window.location.href,
-        browser: getKernel(),
-        navigatorInfo: getNavigatorInfo(),
+        kernel: getKernelVersion(),
+        os: getOs(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
     })
 }
@@ -30,9 +31,32 @@ export function handleClick(content?: any): void {
         statement: getStatement(),
         content,
         url: window.location.href,
-        browser: getKernel(),
-        navigatorInfo: getNavigatorInfo(),
+        kernel: getKernelVersion(),
+        os: getOs(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+    })
+}
+
+function pageTrigger(
+    stateType: IStateType,
+    stayTime: number | string,
+    url: string,
+    pageStatus: IPageStatus,
+    address: IAddress | IBaiduMapAddress
+) {
+    trigger<IPageData>({
+        eventType: 'page',
+        traceId: getTraceId(),
+        statement: getStatement(),
+        stateType,
+        // event,
+        url,
+        pageStatus,
+        stayTime,
+        createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+        kernel: getKernelVersion(),
+        os: getOs(),
+        address
     })
 }
 
@@ -51,21 +75,9 @@ export function handlePage(
     pageStatus: IPageStatus,
     // event?: IEvent,
 ): void {
-    getAddressInfo()
-        .then((address: IAddress) => {
-            trigger<IPageData>({
-                eventType: 'page',
-                traceId: getTraceId(),
-                statement: getStatement(),
-                stateType,
-                // event,
-                url,
-                pageStatus,
-                stayTime,
-                createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-                browser: getKernel(),
-                navigatorInfo: getNavigatorInfo(),
-                address
-            })
-        })
+    const mapURI: string = (window as any)[Config.LOCATION_URL.toString()]
+    if (!mapURI) getAddressInfo()
+        .then((address: IAddress) => pageTrigger(stateType, stayTime, url, pageStatus, address))
+    else getAddressInfoByBaiduMap()
+        .then((address: IBaiduMapAddress) => pageTrigger(stateType, stayTime, url, pageStatus, address))
 }

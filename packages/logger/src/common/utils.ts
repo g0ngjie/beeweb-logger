@@ -1,5 +1,5 @@
 import { Config } from "./enum";
-import { IAddress } from "./schema";
+import { IAddress, IBaiduMapAddress } from "./schema";
 
 export function typeIs<T>(target: T): string {
     const Type: any = {
@@ -105,30 +105,6 @@ export const Base64 = {
     }
 };
 
-/**获取终端信息 */
-export function getNavigatorInfo(): any {
-    const {
-        userAgent,
-        appCodeName,
-        appName,
-        appVersion,
-        language,
-        onLine,
-        platform,
-        vendor,
-    }: Navigator = navigator;
-    return {
-        userAgent,
-        appCodeName,
-        appName,
-        appVersion,
-        language,
-        onLine,
-        platform,
-        vendor,
-    }
-}
-
 /**获取项目 */
 export function getStatement(): { [state: string]: any } {
     const statement: { [state: string]: any } = (window as any)[Config.STATEMENT.toString()]
@@ -155,9 +131,9 @@ function appendJs(src: string, cb: Function): Function {
     }
 }
 
-let cacheLocation: null | IAddress = null
+let cacheLocation: null | IBaiduMapAddress | IAddress
 
-export function getAddressInfo(): Promise<IAddress> {
+export function getAddressInfoByBaiduMap(): Promise<IBaiduMapAddress> {
     return new Promise((resolve: any) => {
         const mapURI: string = (window as any)[Config.LOCATION_URL.toString()]
         if (!mapURI) resolve({ err: '未配置' })
@@ -183,59 +159,78 @@ export function getAddressInfo(): Promise<IAddress> {
     })
 }
 
-export const isBrowser = typeof window !== 'undefined'
+/**获取经纬度，地址等信息 */
+export function getAddressInfo(): Promise<IAddress> {
+    return new Promise((resolve: any) => {
+        if (cacheLocation) resolve(cacheLocation)
+        else
+            fetch('https://ipapi.co/json/').then((res) => res.json()).then((addr) => {
+                const { ip, latitude, longitude, version, region, city } = addr
+                cacheLocation = { ip, latitude, longitude, version, region, city }
+                resolve(cacheLocation)
+            }).catch(err => {
+                resolve({ err: '位置获取异常' })
+            })
+    })
+}
 
-/**获取浏览器内核类型 */
-export function getKernel(): string {
+/**获取浏览器内核和版本信息 */
+export function getKernelVersion(type?: 'name' | 'version'): string {
+    const browser: any = {
+        msie: false,
+        firefox: false,
+        opera: false,
+        safari: false,
+        chrome: false,
+        netscape: false,
+        appname: 'unknown',
+        version: 0
+    },
+        ua = window.navigator.userAgent.toLowerCase();
+    if (/(msie|firefox|opera|chrome|netscape)\D+(\d[\d.]*)/.test(ua)) {
+        browser[RegExp.$1] = true;
+        browser.appname = RegExp.$1;
+        browser.version = RegExp.$2;
+    } else if (/version\D+(\d[\d.]*).*safari/.test(ua)) {
+        // safari
+        browser.safari = true;
+        browser.appname = 'safari';
+        browser.version = RegExp.$2;
+    }
+    let result: string
+    switch (type) {
+        case 'name':
+            result = browser.appname
+            break;
+        case 'version':
+            result = browser.version
+            break;
+        default:
+            result = browser.appname + ' ' + browser.version;
+            break;
+    }
+    return result
+}
 
-    if (!isBrowser) return 'Nil'
+type IOS = 'Windows' | 'Mac' | 'iphone' | 'ipod' | 'ipad' | 'Android' | 'Linux' | 'Unknown'
 
-    const userAgent = navigator.userAgent //取得浏览器的userAgent字符串
-    const isOpera = userAgent.indexOf('Opera') > -1 //判断是否Opera浏览器
-    const isIE =
-        userAgent.indexOf('compatible') > -1 &&
-        userAgent.indexOf('MSIE') > -1 &&
-        !isOpera //判断是否IE浏览器
-    const isEdge = userAgent.indexOf('Edge') > -1 //判断是否IE的Edge浏览器
-    const isFF = userAgent.indexOf('Firefox') > -1 //判断是否Firefox浏览器
-    const isSafari =
-        userAgent.indexOf('Safari') > -1 && userAgent.indexOf('Chrome') == -1 //判断是否Safari浏览器
-    const isChrome =
-        userAgent.indexOf('Chrome') > -1 && userAgent.indexOf('Safari') > -1 //判断Chrome浏览器
-
-    if (isIE) {
-        const reIE = new RegExp('MSIE (\\d+\\.\\d+);')
-        reIE.test(userAgent)
-        const fIEVersion = parseFloat(RegExp['$1'])
-        if (fIEVersion == 7) {
-            return 'IE7'
-        } else if (fIEVersion == 8) {
-            return 'IE8'
-        } else if (fIEVersion == 9) {
-            return 'IE9'
-        } else if (fIEVersion == 10) {
-            return 'IE10'
-        } else if (fIEVersion == 11) {
-            return 'IE11'
-        } else {
-            //IE版本过低
-            return 'IE'
-        }
+/**获取操作系统 */
+export function getOs(): IOS {
+    let os: IOS = 'Unknown';
+    const UserAgent: string = navigator.userAgent.toLowerCase();
+    if (navigator.platform == 'Win32' || navigator.platform == 'Windows') os = 'Windows'
+    if (
+        navigator.platform == 'Mac68K' ||
+        navigator.platform == 'MacPPC' ||
+        navigator.platform == 'Macintosh' ||
+        navigator.platform == 'MacIntel'
+    ) os = 'Mac'
+    if (UserAgent.indexOf('iPhone') > -1) os = 'iphone';
+    if (UserAgent.indexOf('iPod') > -1) os = 'ipod'
+    if (UserAgent.indexOf('iPad') > -1) os = 'ipad'
+    if (UserAgent.indexOf('Linux') > -1) {
+        if (UserAgent.indexOf('Android') > -1) os = 'Android'
+        else os = 'Linux'
     }
-    if (isOpera) {
-        return 'Opera'
-    }
-    if (isEdge) {
-        return 'Edge'
-    }
-    if (isFF) {
-        return 'FF'
-    }
-    if (isSafari) {
-        return 'Safari'
-    }
-    if (isChrome) {
-        return 'Chrome'
-    }
-    return 'None'
+    return os;
 }

@@ -4,20 +4,29 @@ export declare type IEvent = WindowEventMap['load'] | WindowEventMap['popstate']
 export declare type IPageStatus = 'enter' | 'leave';
 interface IBaseData {
     eventType: IType;
-    navigatorInfo: any;
+    os: any;
     traceId?: string;
     statement?: {
         [state: string]: any;
     };
-    browser: string;
+    kernel: string;
 }
-export interface IAddress {
+export interface IBaiduMapAddress {
     lat?: string;
     lng?: string;
     location?: {
         address: string;
         content: any;
     };
+    err?: string;
+}
+export interface IAddress {
+    ip?: string;
+    latitude?: string;
+    longitude?: string;
+    version?: string;
+    region?: string;
+    city?: string;
     err?: string;
 }
 export interface IPageData extends IBaseData {
@@ -28,7 +37,7 @@ export interface IPageData extends IBaseData {
     createTime: string;
     stayTime: number | string;
     pageStatus: IPageStatus;
-    address: IAddress;
+    address: IBaiduMapAddress | IAddress;
 }
 export interface IClickData extends IBaseData {
     content?: any;

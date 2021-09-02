@@ -10,19 +10,19 @@ export type IPageStatus = 'enter' | 'leave'
 interface IBaseData {
     // 事件类型
     eventType: IType
-    // 浏览器信息
-    navigatorInfo: any
+    // 操作系统
+    os: any
     // 链路ID
     traceId?: string
     // 声明
     statement?: {
         [state: string]: any
     }
-    // 终端
-    browser: string
+    // 浏览器内核
+    kernel: string
 }
 
-export interface IAddress {
+export interface IBaiduMapAddress {
     // Latitude 纬度
     lat?: string
     // Longtitude 经度
@@ -31,6 +31,21 @@ export interface IAddress {
         address: string
         content: any
     },
+    err?: string
+}
+
+export interface IAddress {
+    ip?: string
+    // Latitude 纬度
+    latitude?: string
+    // Longtitude 经度
+    longitude?: string
+    // IPv4
+    version?: string
+    // 区域|省
+    region?: string
+    // 城市
+    city?: string
     err?: string
 }
 
@@ -48,7 +63,7 @@ export interface IPageData extends IBaseData {
     stayTime: number | string
     // 页面进入/离开
     pageStatus: IPageStatus
-    address: IAddress
+    address: IBaiduMapAddress | IAddress
 }
 
 export interface IClickData extends IBaseData {
@@ -68,6 +83,7 @@ export type IEncryptionFunc = Function | 'useDefault'
 
 export interface IConfigOptions {
     traceId?: string
+    // 百度地图API
     mapURI?: string
     serverURL?: string
     encryptionFunc?: IEncryptionFunc
