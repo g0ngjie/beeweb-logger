@@ -16,6 +16,15 @@ router.post("/", async (ctx, next) => {
   await next();
 });
 
+router.post("/async", async (ctx, next) => {
+  const body = ctx.request.body;
+  if (body) {
+    const [, data] = body.split('?data=')
+    await insertData(data);
+  }
+  await next()
+})
+
 /**查询全部 */
 router.get("/today", async (ctx, next) => {
   const query = ctx.request.query
