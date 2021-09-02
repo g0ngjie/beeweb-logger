@@ -1,7 +1,7 @@
 import { mount, listener, handleClick, handleCustom, mountPageEvent } from "@beeweb/logger";
 
 const install = function (Vue) {
-    mount();
+    mount({ serverURL: 'http://localhost:12345', encryptionFunc: 'useDefault' });
     Vue.prototype.$loggerClick = handleClick;
     Vue.prototype.$loggerCustom = handleCustom;
 

@@ -12,20 +12,13 @@ const LoggerModel = MysqlDB.define("loggers", {
   createTime: Sequelize.STRING,
   statement: Sequelize.STRING,
   content: Sequelize.STRING,
-  browser: Sequelize.STRING,
   url: Sequelize.STRING,
-  _address: Sequelize.STRING,
-  city: Sequelize.STRING,
   address: Sequelize.STRING,
   province: Sequelize.STRING,
-  district: Sequelize.STRING,
-  street: Sequelize.STRING,
+  city: Sequelize.STRING,
   lat: Sequelize.STRING,
   lng: Sequelize.STRING,
-  userAgent: Sequelize.STRING,
-  appName: Sequelize.STRING,
-  appVersion: Sequelize.STRING,
-  platform: Sequelize.STRING,
+  os: Sequelize.STRING,
 });
 
 LoggerModel.sync();

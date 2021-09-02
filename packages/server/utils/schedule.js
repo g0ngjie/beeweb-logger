@@ -38,31 +38,35 @@ function launchMail() {
  */
 function fmtData(reqBody) {
   const decodeStr = Base64.decode(reqBody);
-  const { navigatorInfo, address: userAddr = {}, statement, content: getContent, ...others } = JSON.parse(decodeStr);
+  const { address: userAddr = {}, statement, content: getContent, ...others } = JSON.parse(decodeStr);
 
-  const {
-    userAgent, //由客户机发送服务器的 user-agent 头部的值
-    appName, //浏览器的名称
-    appVersion, //浏览器的平台和版本信息
-    platform, //运行浏览器的操作系统平台
-  } = navigatorInfo;
-  const { lat, lng, location: data = {} } = userAddr;
-  const { address, content = {} } = data;
-  const { address: _address, address_detail = {} } = content;
-  const { province, city, district, street } = address_detail;
+  let addr = {}
+  // 使用ip.io
+  if (userAddr.ip) {
+    const { latitude, longitude, region, city } = userAddr
+    addr = {
+      lat: latitude,
+      lng: longitude,
+      province: region,
+      city,
+      address: `${region} | ${city}`
+    }
+  } else {
+    // 百度地图
+    const { lat, lng, location: data = {} } = userAddr;
+    const { content = {} } = data;
+    const { address: _address, address_detail = {} } = content;
+    const { province, city } = address_detail;
+    addr = {
+      lat,
+      lng,
+      province,
+      city,
+      address: _address
+    }
+  }
   return {
-    userAgent,
-    appName,
-    appVersion,
-    platform,
-    lat,
-    lng,
-    address,
-    _address,
-    province,
-    city,
-    district,
-    street,
+    ...addr,
     statement: JSON.stringify(statement),
     content: typeIs(getContent) === 'object' ? JSON.stringify(getContent) : getContent,
     ...others
@@ -75,8 +79,8 @@ function fmtData(reqBody) {
  */
 exports.addCache = (data) => {
   const _data = data;
-  const { platform, lat, lng, userAgent } = _data;
-  const _id = `${platform}_${lat}_${lng}_${userAgent}`;
+  const { lat, lng } = _data;
+  const _id = `${lat}_${lng}`;
   const exist = cache[_id];
   if (exist) {
     const { count } = exist;

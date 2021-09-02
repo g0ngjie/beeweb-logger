@@ -23,22 +23,14 @@ mount()
 listener(function(response) {...})
 /* listener response
 {
-    address: xxx,
-    browser: "Chrome",
+    address: {xxx},
+    kenel: "chrome 92.0.4515.131",
+    os: "Windows",
     createTime: "2021-07-17 19:46:01"
     eventType: "page"
-    navigatorInfo: {
-    	appCodeName: "Mozilla"
-        appName: "Netscape"
-        appVersion: "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70"
-        language: "zh-CN"
-        onLine: true
-        platform: "Win32"
-        userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70"
-        vendor: "Google Inc."
-    }
     pageStatus: "enter"
     stateType: "load"
+    statement: {xxx},
     stayTime: 0,
     traceId: xxx,
     url: "http://127.0.0.1:5500/packages/logger/example/index.html"
@@ -54,7 +46,7 @@ listener(function(response) {...})
 | :------------- | :----------------------- | :------- | :---------------------------------------------------------------------------------------- |
 | traceId        | String                   | false    | 链路 ID                                                                                   |
 | statement      | Object                   | false    | 声明                                                                                      |
-| mapURI         | String                   | false    | 地图定位,默认采用百度地图定位                                                             |
+| mapURI         | String                   | false    | 百度地图定位                                                                              |
 | serverURL      | String                   | false    | 后端接口请求地址                                                                          |
 | encryptionFunc | Function \| 'useDefault' | false    | Function: 接收一个加密函数,对监听到的参数做处理<br />'useDefault': 默认使用**Base64**加密 |
 
