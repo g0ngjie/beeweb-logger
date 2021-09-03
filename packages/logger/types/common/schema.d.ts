@@ -10,6 +10,7 @@ interface IBaseData {
         [state: string]: any;
     };
     kernel: string;
+    address?: IBaiduMapAddress | IAddress;
 }
 export interface IBaiduMapAddress {
     lat?: string;
@@ -37,7 +38,6 @@ export interface IPageData extends IBaseData {
     createTime: string;
     stayTime: number | string;
     pageStatus: IPageStatus;
-    address: IBaiduMapAddress | IAddress;
 }
 export interface IClickData extends IBaseData {
     content?: any;

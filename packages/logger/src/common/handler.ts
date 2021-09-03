@@ -3,6 +3,9 @@ import { IAddress, IBaiduMapAddress, IClickData, ICustomData, IPageData, IPageSt
 import { formatDate, getOs, getAddressInfo, getStatement, getTraceId, getKernelVersion, getAddressInfoByBaiduMap } from "./utils";
 import { Config } from "./enum";
 
+// 页面侧事件触发，地址cache
+let cacheAddress: IAddress | IBaiduMapAddress = {}
+
 /**
  * 自定义触发器
  * @param {any} content 
@@ -17,6 +20,7 @@ export function handleCustom(content?: any): void {
         kernel: getKernelVersion(),
         os: getOs(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+        address: cacheAddress
     })
 }
 
@@ -34,6 +38,7 @@ export function handleClick(content?: any): void {
         kernel: getKernelVersion(),
         os: getOs(),
         createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+        address: cacheAddress
     })
 }
 
@@ -59,9 +64,6 @@ function pageTrigger(
         address
     })
 }
-
-// 用于关闭浏览器时用
-let cacheAddress: IAddress | IBaiduMapAddress = {}
 
 /**
  * 页面级别触发器

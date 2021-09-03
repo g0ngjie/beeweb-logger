@@ -435,6 +435,7 @@
       window.dispatchEvent(event);
     }
 
+    var cacheAddress = {};
     /**
      * 自定义触发器
      * @param {any} content 
@@ -449,7 +450,8 @@
         url: window.location.href,
         kernel: getKernelVersion(),
         os: getOs(),
-        createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+        createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+        address: cacheAddress
       });
     }
     /**
@@ -466,7 +468,8 @@
         url: window.location.href,
         kernel: getKernelVersion(),
         os: getOs(),
-        createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+        createTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+        address: cacheAddress
       });
     }
 
@@ -485,10 +488,7 @@
         os: getOs(),
         address: address
       });
-    } // 用于关闭浏览器时用
-
-
-    var cacheAddress = {};
+    }
     /**
      * 页面级别触发器
      * @param {IStateType} stateType 
@@ -497,6 +497,7 @@
      * @param {string} url 
      * @param {IPageStatus} pageStatus 
      */
+
 
     function handlePage(stateType, stayTime, url, pageStatus) {
       var mapURI = window[Config.LOCATION_URL.toString()];

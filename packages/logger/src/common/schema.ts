@@ -20,6 +20,7 @@ interface IBaseData {
     }
     // 浏览器内核
     kernel: string
+    address?: IBaiduMapAddress | IAddress
 }
 
 export interface IBaiduMapAddress {
@@ -63,7 +64,6 @@ export interface IPageData extends IBaseData {
     stayTime: number | string
     // 页面进入/离开
     pageStatus: IPageStatus
-    address: IBaiduMapAddress | IAddress
 }
 
 export interface IClickData extends IBaseData {
