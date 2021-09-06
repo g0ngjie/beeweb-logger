@@ -1,5 +1,7 @@
 const router = require("koa-router")();
 const logProxy = require("../proxy/logger");
+const chartsProxy = require("../proxy/charts");
+
 const { insertData } = require("../utils/schedule");
 
 router.get("/err", async (ctx, next) => {
@@ -67,6 +69,24 @@ router.get("/struct", async (ctx, next) => {
     else map[traceId] = [other]
   }
   ctx.body = map;
+  ctx.status = 200;
+  await next();
+})
+
+/**可视化城市热度 */
+router.get("/charts/map", async (ctx, next) => {
+  const citys = await chartsProxy.findCitys()
+
+  const data = []
+    , geoCoordMap = {}
+  citys.forEach(city => {
+    const { count, lat, lng, city: cityName } = city
+    if (cityName) {
+      geoCoordMap[cityName] = [lng, lat]
+      data.push({ name: cityName, value: count })
+    }
+  })
+  ctx.body = { data, geoCoordMap };
   ctx.status = 200;
   await next();
 })

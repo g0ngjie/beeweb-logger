@@ -5,29 +5,67 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Statistics</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgb(39, 37, 37);
+        }
+    </style>
 </head>
 
 <body>
-    <button onclick="onClick()">click</button>
-</body>
+    <script src="http://api.map.baidu.com/api?v=3.0&ak=RD3fQS8GA1UeR4Ig10ejdEkTg1OfwuV3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/bmap.js"></script>
+    <script type="module" type="text/javascript">
 
-<script type="module">
-    import { mount, listener, handleClick } from "../../logger/lib/index.esm.min.js";
-    mount({
-        traceId: 'xxxabc',
-        serverURL: 'http://localhost:12345',
-        encryptionFunc: 'useDefault',
-        statement: {
-            project: 'logger-server',
-            pid: 'AAAAAAAAAAAAAAAAAAAAAAAAAA',
-            space: 'space X',
-            container: 'hasagi'
+        function getElement(ele, params = {}) {
+            const dom = document.createElement(ele)
+            for (const key in params) {
+                if (Object.hasOwnProperty.call(params, key)) {
+                    const value = params[key];
+                    dom[key] = value
+                }
+            }
+            return dom
         }
-    });
-    listener(({ detail }) => console.log(detail))
-    window.onClick = () => handleClick('test click')
-</script>
+
+        function appendEle(ele) {
+            document.body.appendChild(ele)
+        }
+
+        const { clientWidth, clientHeight } = document.body
+
+        import { getMapData } from "./map.js";
+
+        const mapContainer = getElement('div', { id: 'mapContainer' })
+        mapContainer.style.cssText = `width: ${clientWidth}px; height: ${clientHeight}px`
+        appendEle(mapContainer)
+
+        getMapData().then(mapOption => {
+            const mapChart = echarts.init(mapContainer, 'dark');
+            mapChart.setOption(mapOption);
+        })
+
+
+
+        /**
+        条件：
+            按总量
+            按城市
+            按项目
+            按OS
+
+            折线图
+            城市地图
+        */
+    </script>
+</body>
 
 
 </html>
