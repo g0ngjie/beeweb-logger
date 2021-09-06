@@ -1,6 +1,7 @@
 "use strict";
 
 const LoggerModel = require("../model/logger");
+const { date } = require('@alrale/common-lib');
 const seq = require("sequelize");
 
 /**查询访问的城市列表 */
@@ -12,7 +13,7 @@ exports.findCitys = async () => {
             'lng',
             [seq.fn('count', seq.col('id')), 'count']
         ],
-        group: ['city'],
+        group: ['city', 'lat', 'lng'],
     })
     return result;
 }
