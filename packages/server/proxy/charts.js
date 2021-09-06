@@ -8,7 +8,6 @@ exports.findCitys = async () => {
     const result = await LoggerModel.findAll({
         attributes: [
             'city',
-            'traceId',
             'lat',
             'lng',
             [seq.fn('count', seq.col('id')), 'count']
