@@ -14,6 +14,14 @@
             height: 100%;
             width: 100%;
             background-color: rgb(39, 37, 37);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 清理logo */
+        .anchorBL {
+            display: none !important;
         }
     </style>
 </head>
@@ -44,7 +52,7 @@
         import { getMapData } from "./map.js";
 
         const mapContainer = getElement('div', { id: 'mapContainer' })
-        mapContainer.style.cssText = `width: ${clientWidth}px; height: ${clientHeight}px`
+        mapContainer.style.cssText = `width: ${clientWidth - 15}px; height: ${clientHeight - 15}px;`
         appendEle(mapContainer)
 
         getMapData().then(mapOption => {
