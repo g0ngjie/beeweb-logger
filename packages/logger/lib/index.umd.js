@@ -278,7 +278,7 @@
       if (UserAgent.indexOf('ipad') > -1) os = 'iPad';
 
       if (UserAgent.indexOf('linux') > -1) {
-        if (UserAgent.indexOf('Android') > -1) os = 'Android';else os = 'Linux';
+        if (UserAgent.indexOf('android') > -1) os = 'Android';else os = 'Linux';
       }
 
       return os;
