@@ -20,11 +20,11 @@ export function getMapData() {
                     return res;
                 };
                 const option = {
-                    title: {
-                        text: '全国访问统计',
-                        // subtext: '',
-                        left: 'center'
-                    },
+                    // title: {
+                    //     text: '全国访问统计',
+                    //     // subtext: '',
+                    //     left: 'center'
+                    // },
                     tooltip: {
                         trigger: 'item'
                     },
