@@ -267,11 +267,11 @@ function getOs() {
   var UserAgent = navigator.userAgent.toLowerCase();
   if (navigator.platform == 'Win32' || navigator.platform == 'Windows') os = 'Windows';
   if (navigator.platform == 'Mac68K' || navigator.platform == 'MacPPC' || navigator.platform == 'Macintosh' || navigator.platform == 'MacIntel') os = 'Mac';
-  if (UserAgent.indexOf('iPhone') > -1) os = 'iphone';
-  if (UserAgent.indexOf('iPod') > -1) os = 'ipod';
-  if (UserAgent.indexOf('iPad') > -1) os = 'ipad';
+  if (UserAgent.indexOf('iphone') > -1) os = 'iPhone';
+  if (UserAgent.indexOf('ipod') > -1) os = 'iPod';
+  if (UserAgent.indexOf('ipad') > -1) os = 'iPad';
 
-  if (UserAgent.indexOf('Linux') > -1) {
+  if (UserAgent.indexOf('linux') > -1) {
     if (UserAgent.indexOf('Android') > -1) os = 'Android';else os = 'Linux';
   }
 
