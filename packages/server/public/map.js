@@ -134,7 +134,7 @@ export function getMapData() {
                     },
                     series: [
                         {
-                            name: '访问统计',
+                            // name: '访问统计',
                             type: 'scatter',
                             coordinateSystem: 'bmap',
                             data: convertData(data),
