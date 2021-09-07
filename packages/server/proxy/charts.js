@@ -1,7 +1,6 @@
 "use strict";
 
 const LoggerModel = require("../model/logger");
-const { date } = require('@alrale/common-lib');
 const seq = require("sequelize");
 
 /**查询访问的城市列表 */
