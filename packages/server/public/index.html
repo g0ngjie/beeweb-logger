@@ -32,6 +32,19 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/bmap.js"></script>
     <script type="module" type="text/javascript">
 
+        function parseQuery(url) {
+            const params = {};
+            const query = url.split("?")[1];
+            if (!query) return
+            const queryArr = query.split("&");
+            queryArr.forEach(item => {
+                const key = item.split("=")[0];
+                const value = item.split("=")[1];
+                params[key] = decodeURI(value);
+            });
+            return params;
+        }
+
         function getElement(ele, params = {}) {
             const dom = document.createElement(ele)
             for (const key in params) {
@@ -56,7 +69,8 @@
         appendEle(mapContainer)
 
         getMapData().then(mapOption => {
-            const mapChart = echarts.init(mapContainer, 'dark');
+            const query = parseQuery(location.href)
+            const mapChart = echarts.init(mapContainer, query?.theme);
             mapChart.setOption(mapOption);
         })
 
