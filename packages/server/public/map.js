@@ -156,7 +156,7 @@ export function getMapData() {
                             }
                         },
                         {
-                            name: 'Top 5',
+                            // name: 'Top 5',
                             type: 'effectScatter',
                             coordinateSystem: 'bmap',
                             data: convertData(data.sort(function (a, b) {
