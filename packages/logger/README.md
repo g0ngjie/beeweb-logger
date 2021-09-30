@@ -24,7 +24,7 @@ listener(function(response) {...})
 /* listener response
 {
     address: {xxx},
-    kenel: "chrome 92.0.4515.131",
+    kernel: "chrome 92.0.4515.131",
     os: "Windows",
     createTime: "2021-07-17 19:46:01"
     eventType: "page"
