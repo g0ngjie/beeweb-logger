@@ -137,9 +137,11 @@ export function getMapData() {
                             // name: '访问统计',
                             type: 'scatter',
                             coordinateSystem: 'bmap',
-                            data: convertData(data),
+                            data: convertData(data.sort(function (a, b) {
+                                return b.value - a.value;
+                            }).slice(6)),
                             symbolSize: function (val) {
-                                return val[2] / 10;
+                                return val[2] / 2;
                             },
                             encode: {
                                 value: 2
@@ -163,7 +165,7 @@ export function getMapData() {
                                 return b.value - a.value;
                             }).slice(0, 6)),
                             symbolSize: function (val) {
-                                return val[2] / 10;
+                                return val[2] / 8;
                             },
                             encode: {
                                 value: 2
