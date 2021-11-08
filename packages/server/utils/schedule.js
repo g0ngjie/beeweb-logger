@@ -3,7 +3,7 @@ const { Base64 } = require("./secret");
 const { setMail, getHtmlTemplate } = require("./mail");
 const { logInfo } = require("./logs");
 const { timing, minute, hour } = require("../config");
-const logProxy = require('../proxy/logger');
+const logProxy = require("../proxy/logger");
 const { typeIs } = require("@alrale/common-lib");
 
 let cache = {};
@@ -38,19 +38,24 @@ function launchMail() {
  */
 function fmtData(reqBody) {
   const decodeStr = Base64.decode(reqBody);
-  const { address: userAddr = {}, statement, content: getContent, ...others } = JSON.parse(decodeStr);
+  const {
+    address: userAddr = {},
+    statement,
+    content: getContent,
+    ...others
+  } = JSON.parse(decodeStr);
 
-  let addr = {}
+  let addr = {};
   // 使用ip.io
   if (userAddr.ip) {
-    const { latitude, longitude, region, city } = userAddr
+    const { latitude, longitude, region, city } = userAddr;
     addr = {
       lat: latitude,
       lng: longitude,
       province: region,
       city,
-      address: `${region} | ${city}`
-    }
+      address: `${region} | ${city}`,
+    };
   } else {
     // 百度地图
     const { lat, lng, location: data = {} } = userAddr;
@@ -62,14 +67,15 @@ function fmtData(reqBody) {
       lng,
       province,
       city,
-      address: _address
-    }
+      address: _address,
+    };
   }
   return {
     ...addr,
     statement: JSON.stringify(statement),
-    content: typeIs(getContent) === 'object' ? JSON.stringify(getContent) : getContent,
-    ...others
+    content:
+      typeIs(getContent) === "object" ? JSON.stringify(getContent) : getContent,
+    ...others,
   };
 }
 
@@ -90,13 +96,12 @@ exports.addCache = (data) => {
   }
   // 日志
   // logInfo(_data);
-  if (!timing) launchMail();
 };
 
 /**插入数据 */
 exports.insertData = (data) => {
   // 缓存
   const _data = fmtData(data);
-  exports.addCache(_data)
-  logProxy.create(_data)
-}
+  exports.addCache(_data);
+  logProxy.create(_data);
+};
