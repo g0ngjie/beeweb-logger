@@ -1,0 +1,103 @@
+<meta charset="utf-8">
+<title>logger demo</title>
+<style>
+    .row {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    .row p {
+        margin: 5px 0;
+        padding: 5px;
+        background-color: #F2F6FC;
+    }
+</style>
+
+<body>
+    <div class="row">
+        <button onclick="onClick()">click</button>
+        <button onclick="onCustom()">custom</button>
+        <button onclick="onReload()">reload</button>
+    </div>
+
+    <div class="row" id="target">
+    </div>
+</body>
+
+<script src="./index.umd.min.js"></script>
+<script>
+
+    function composition(data) {
+        const {
+            eventType,
+            kernel,
+            content,
+            createTime,
+            os,
+            url,
+            address,
+        } = data || {}
+        let addr = ""
+        if (address) {
+            Object.keys(address).forEach(key => {
+                addr += `${key}:${address[key]} `
+            })
+        }
+
+        let contentStr = ""
+        const target = {
+            eventType,
+            eventType,
+            kernel,
+            content,
+            createTime,
+            os,
+            url,
+            address: addr,
+        }
+        Object.keys(target).forEach(key => {
+            contentStr += `${key}:   ${target[key]} \n`
+        })
+        return contentStr
+    }
+
+    function render(list) {
+        const target = document.getElementById('target');
+        const doms = list.map(item => {
+            const p = document.createElement('p');
+            console.log("[debug]composition(item).toString():", composition(item))
+            p.innerText = composition(item).toString();
+            return p;
+        });
+        target.innerHTML = '';
+        doms.forEach(dom => target.appendChild(dom));
+    }
+
+    const contents = new Proxy([], {
+        get: (target, key) => {
+            return Reflect.get(target, key);
+        },
+        set: (target, key, value) => {
+            return Reflect.set(target, key, value);
+        }
+    })
+
+    logger.mount();
+    logger.listener(({ detail }) => {
+        contents.push(detail);
+        render(contents);
+    })
+    function onClick() {
+        logger.handleClick('test click')
+    }
+    function onCustom() {
+        logger.handleCustom('test custom')
+    }
+    function onReload() {
+        location.reload()
+    }
+
+
+</script>
